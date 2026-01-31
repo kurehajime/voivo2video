@@ -1,0 +1,8 @@
+{
+  "vvprojPath": "subtitles/test.vvproj",
+  "wavPath": "sound.wav",
+  "backgroundColor": "#f7f6f2",
+  "textColor": "#0f172a",
+  "fontSize": 56,
+  "paddingBottom": 80
+}
