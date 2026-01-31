@@ -1,0 +1,329 @@
+{
+    "appVersion": "0.25.1",
+    "talk": {
+        "audioKeys": [
+            "c6f6caaf-3c7c-4022-9151-3c8200043aca",
+            "f044004c-9d37-4ca2-8fe9-f333011da2a1",
+            "c224dabe-b64a-4a41-8f15-e4d7bb1f7a8f"
+        ],
+        "audioItems": {
+            "c6f6caaf-3c7c-4022-9151-3c8200043aca": {
+                "text": "ずんだもんなのだ",
+                "voice": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
+                    "styleId": 3
+                },
+                "query": {
+                    "accentPhrases": [
+                        {
+                            "moras": [
+                                {
+                                    "text": "ズ",
+                                    "consonant": "z",
+                                    "consonantLength": 0.12722793221473694,
+                                    "vowel": "u",
+                                    "vowelLength": 0.11318320780992508,
+                                    "pitch": 5.773038387298584
+                                },
+                                {
+                                    "text": "ン",
+                                    "vowel": "N",
+                                    "vowelLength": 0.09306203573942184,
+                                    "pitch": 6.108947277069092
+                                },
+                                {
+                                    "text": "ダ",
+                                    "consonant": "d",
+                                    "consonantLength": 0.042498137801885605,
+                                    "vowel": "a",
+                                    "vowelLength": 0.09372273832559586,
+                                    "pitch": 6.09743070602417
+                                },
+                                {
+                                    "text": "モ",
+                                    "consonant": "m",
+                                    "consonantLength": 0.07012029737234116,
+                                    "vowel": "o",
+                                    "vowelLength": 0.11724784225225449,
+                                    "pitch": 5.932624340057373
+                                },
+                                {
+                                    "text": "ン",
+                                    "vowel": "N",
+                                    "vowelLength": 0.0649629533290863,
+                                    "pitch": 5.745952129364014
+                                },
+                                {
+                                    "text": "ナ",
+                                    "consonant": "n",
+                                    "consonantLength": 0.038462985306978226,
+                                    "vowel": "a",
+                                    "vowelLength": 0.08576130867004395,
+                                    "pitch": 5.579485893249512
+                                }
+                            ],
+                            "accent": 1,
+                            "isInterrogative": false
+                        },
+                        {
+                            "moras": [
+                                {
+                                    "text": "ノ",
+                                    "consonant": "n",
+                                    "consonantLength": 0.055042754858732224,
+                                    "vowel": "o",
+                                    "vowelLength": 0.09030422568321228,
+                                    "pitch": 5.551316738128662
+                                },
+                                {
+                                    "text": "ダ",
+                                    "consonant": "d",
+                                    "consonantLength": 0.050249963998794556,
+                                    "vowel": "a",
+                                    "vowelLength": 0.20450790226459503,
+                                    "pitch": 5.633929252624512
+                                }
+                            ],
+                            "accent": 2,
+                            "isInterrogative": false
+                        }
+                    ],
+                    "speedScale": 1,
+                    "pitchScale": 0,
+                    "intonationScale": 1,
+                    "volumeScale": 1,
+                    "prePhonemeLength": 0.1,
+                    "postPhonemeLength": 0.1,
+                    "pauseLengthScale": 1,
+                    "outputSamplingRate": 24000,
+                    "outputStereo": false,
+                    "kana": ""
+                },
+                "presetKey": "4e07237e-9997-4250-96af-a69253b0b48b"
+            },
+            "f044004c-9d37-4ca2-8fe9-f333011da2a1": {
+                "text": "ずんだもんなのだ",
+                "voice": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
+                    "styleId": 76
+                },
+                "query": {
+                    "accentPhrases": [
+                        {
+                            "moras": [
+                                {
+                                    "text": "ズ",
+                                    "consonant": "z",
+                                    "consonantLength": 0.09129594266414642,
+                                    "vowel": "u",
+                                    "vowelLength": 0.1888975203037262,
+                                    "pitch": 6.484416484832764
+                                },
+                                {
+                                    "text": "ン",
+                                    "vowel": "N",
+                                    "vowelLength": 0.06685544550418854,
+                                    "pitch": 6.314751625061035
+                                },
+                                {
+                                    "text": "ダ",
+                                    "consonant": "d",
+                                    "consonantLength": 0.020527847111225128,
+                                    "vowel": "a",
+                                    "vowelLength": 0.15434850752353668,
+                                    "pitch": 6.178555965423584
+                                },
+                                {
+                                    "text": "モ",
+                                    "consonant": "m",
+                                    "consonantLength": 0.06411623954772949,
+                                    "vowel": "o",
+                                    "vowelLength": 0.18821921944618225,
+                                    "pitch": 6.150705337524414
+                                },
+                                {
+                                    "text": "ン",
+                                    "vowel": "N",
+                                    "vowelLength": 0.05719621479511261,
+                                    "pitch": 6.127986431121826
+                                },
+                                {
+                                    "text": "ナ",
+                                    "consonant": "n",
+                                    "consonantLength": 0.03394510596990585,
+                                    "vowel": "a",
+                                    "vowelLength": 0.12229330837726593,
+                                    "pitch": 6.077908039093018
+                                }
+                            ],
+                            "accent": 1,
+                            "isInterrogative": false
+                        },
+                        {
+                            "moras": [
+                                {
+                                    "text": "ノ",
+                                    "consonant": "n",
+                                    "consonantLength": 0.06280097365379333,
+                                    "vowel": "o",
+                                    "vowelLength": 0.1293007880449295,
+                                    "pitch": 6.037726879119873
+                                },
+                                {
+                                    "text": "ダ",
+                                    "consonant": "d",
+                                    "consonantLength": 0.04663199931383133,
+                                    "vowel": "a",
+                                    "vowelLength": 0.2968917489051819,
+                                    "pitch": 5.996465682983398
+                                }
+                            ],
+                            "accent": 2,
+                            "isInterrogative": false
+                        }
+                    ],
+                    "speedScale": 1,
+                    "pitchScale": 0,
+                    "intonationScale": 1,
+                    "volumeScale": 1,
+                    "prePhonemeLength": 0.1,
+                    "postPhonemeLength": 0.1,
+                    "pauseLengthScale": 1,
+                    "outputSamplingRate": 24000,
+                    "outputStereo": false,
+                    "kana": ""
+                },
+                "presetKey": "86c5feb1-1a2f-4949-9a65-72e04fe71acf"
+            },
+            "c224dabe-b64a-4a41-8f15-e4d7bb1f7a8f": {
+                "text": "四国めたんよ",
+                "voice": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
+                    "styleId": 2
+                },
+                "query": {
+                    "accentPhrases": [
+                        {
+                            "moras": [
+                                {
+                                    "text": "シ",
+                                    "consonant": "sh",
+                                    "consonantLength": 0.03920518606901169,
+                                    "vowel": "i",
+                                    "vowelLength": 0.08295991271734238,
+                                    "pitch": 5.77801513671875
+                                },
+                                {
+                                    "text": "コ",
+                                    "consonant": "k",
+                                    "consonantLength": 0.06765251606702805,
+                                    "vowel": "o",
+                                    "vowelLength": 0.08108974248170853,
+                                    "pitch": 5.940373420715332
+                                },
+                                {
+                                    "text": "ク",
+                                    "consonant": "k",
+                                    "consonantLength": 0.05044395104050636,
+                                    "vowel": "u",
+                                    "vowelLength": 0.045554906129837036,
+                                    "pitch": 5.741611003875732
+                                }
+                            ],
+                            "accent": 1,
+                            "isInterrogative": false
+                        },
+                        {
+                            "moras": [
+                                {
+                                    "text": "メ",
+                                    "consonant": "m",
+                                    "consonantLength": 0.04747035726904869,
+                                    "vowel": "e",
+                                    "vowelLength": 0.09158921986818314,
+                                    "pitch": 5.580695629119873
+                                },
+                                {
+                                    "text": "タ",
+                                    "consonant": "t",
+                                    "consonantLength": 0.05708090215921402,
+                                    "vowel": "a",
+                                    "vowelLength": 0.13686828315258026,
+                                    "pitch": 5.7925333976745605
+                                },
+                                {
+                                    "text": "ン",
+                                    "vowel": "N",
+                                    "vowelLength": 0.07920371741056442,
+                                    "pitch": 5.622823715209961
+                                },
+                                {
+                                    "text": "ヨ",
+                                    "consonant": "y",
+                                    "consonantLength": 0.046574972569942474,
+                                    "vowel": "o",
+                                    "vowelLength": 0.13065707683563232,
+                                    "pitch": 5.437750816345215
+                                }
+                            ],
+                            "accent": 1,
+                            "isInterrogative": false
+                        }
+                    ],
+                    "speedScale": 1,
+                    "pitchScale": 0,
+                    "intonationScale": 1,
+                    "volumeScale": 1,
+                    "prePhonemeLength": 0.1,
+                    "postPhonemeLength": 0.1,
+                    "pauseLengthScale": 1,
+                    "outputSamplingRate": 24000,
+                    "outputStereo": false,
+                    "kana": ""
+                },
+                "presetKey": "ecdeb377-1fcf-44af-944b-6e62856f5b54"
+            }
+        }
+    },
+    "song": {
+        "tpqn": 480,
+        "tempos": [
+            {
+                "position": 0,
+                "bpm": 120
+            }
+        ],
+        "timeSignatures": [
+            {
+                "measureNumber": 1,
+                "beats": 4,
+                "beatType": 4
+            }
+        ],
+        "tracks": {
+            "d41eebf6-8060-4362-b906-1925928c856f": {
+                "name": "無名トラック",
+                "singer": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "styleId": 3003
+                },
+                "keyRangeAdjustment": -2,
+                "volumeRangeAdjustment": 0,
+                "notes": [],
+                "pitchEditData": [],
+                "volumeEditData": [],
+                "phonemeTimingEditData": {},
+                "solo": false,
+                "mute": false,
+                "gain": 1,
+                "pan": 0
+            }
+        },
+        "trackOrder": [
+            "d41eebf6-8060-4362-b906-1925928c856f"
+        ]
+    }
+}
