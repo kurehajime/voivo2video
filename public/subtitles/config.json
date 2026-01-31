@@ -4,7 +4,19 @@
   "backgroundColor": "#f7f6f2",
   "textColor": "#0f172a",
   "strokeColor": "#ff00ff",
-  "strokeWidth": 5,
+  "strokeWidth": 10,
   "fontSize": 56,
-  "paddingBottom": 80
+  "paddingBottom": 80,
+  "speakers": [
+    {
+      "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
+      "textColor": "#ffffff",
+      "strokeColor": "#00cc33"
+    },
+    {
+      "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
+      "textColor": "#ffffff",
+      "strokeColor": "#cc00cc"
+    }
+  ]
 }

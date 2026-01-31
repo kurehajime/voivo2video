@@ -18,6 +18,9 @@ export type VvprojAudioQuery = {
 
 export type VvprojAudioItem = {
   text?: string | null;
+  voice?: {
+    speakerId?: string | null;
+  } | null;
   query?: VvprojAudioQuery | null;
 };
 
@@ -61,6 +64,7 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
 export type TalkLine = {
   key: string;
   text: string;
+  speakerId: string | null;
   startSec: number;
   endSec: number;
   durationSec: number;
@@ -90,6 +94,7 @@ export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
     lines.push({
       key,
       text: item.text ?? "",
+      speakerId: item.voice?.speakerId ?? null,
       startSec,
       endSec,
       durationSec,

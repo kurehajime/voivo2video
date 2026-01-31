@@ -99,13 +99,35 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
   }, [frame, lines]);
 
   const backgroundColor = config?.backgroundColor ?? "#f7f6f2";
-  const textColor = config?.textColor ?? "#0f172a";
-  const strokeColor = config?.strokeColor ?? "rgba(0, 0, 0, 0.7)";
-  const strokeWidth = config?.strokeWidth ?? 2;
-  const fontSize = config?.fontSize ?? 56;
-  const fontFamily =
+  const defaultTextColor = config?.textColor ?? "#0f172a";
+  const defaultStrokeColor = config?.strokeColor ?? "rgba(0, 0, 0, 0.7)";
+  const defaultStrokeWidth = config?.strokeWidth ?? 2;
+  const defaultFontSize = config?.fontSize ?? 56;
+  const defaultFontFamily =
     config?.fontFamily ?? "'Noto Sans JP', 'Hiragino Sans', sans-serif";
   const paddingBottom = config?.paddingBottom ?? 80;
+
+  const activeStyle = useMemo(() => {
+    const speakerId = activeLine?.speakerId ?? null;
+    const override = speakerId
+      ? config?.speakers?.find((entry) => entry.speakerId === speakerId)
+      : undefined;
+    return {
+      textColor: override?.textColor ?? defaultTextColor,
+      strokeColor: override?.strokeColor ?? defaultStrokeColor,
+      strokeWidth: override?.strokeWidth ?? defaultStrokeWidth,
+      fontSize: override?.fontSize ?? defaultFontSize,
+      fontFamily: override?.fontFamily ?? defaultFontFamily,
+    };
+  }, [
+    activeLine?.speakerId,
+    config?.speakers,
+    defaultTextColor,
+    defaultStrokeColor,
+    defaultStrokeWidth,
+    defaultFontSize,
+    defaultFontFamily,
+  ]);
 
   return (
     <AbsoluteFill style={{ backgroundColor }}>
@@ -117,15 +139,18 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
             left: 80,
             right: 80,
             bottom: paddingBottom,
-            color: textColor,
-            fontSize,
-            fontFamily,
+            color: activeStyle.textColor,
+            fontSize: activeStyle.fontSize,
+            fontFamily: activeStyle.fontFamily,
             lineHeight: 1.4,
             textAlign: "center",
             textShadow: "0 2px 12px rgba(0, 0, 0, 0.25)",
             whiteSpace: "pre-wrap",
-            WebkitTextStroke: `${strokeWidth}px ${strokeColor}`,
+            WebkitTextStroke: `${activeStyle.strokeWidth}px ${activeStyle.strokeColor}`,
             paintOrder: "stroke fill",
+            overflowWrap: "anywhere",
+            wordBreak: "normal",
+            lineBreak: "strict",
           }}
         >
           {activeLine.text}
