@@ -3,6 +3,8 @@
   "wavPath": "sound.wav",
   "backgroundColor": "#f7f6f2",
   "textColor": "#0f172a",
+  "strokeColor": "#ff00ff",
+  "strokeWidth": 5,
   "fontSize": 56,
   "paddingBottom": 80
 }

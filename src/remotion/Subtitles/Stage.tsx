@@ -100,6 +100,8 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
 
   const backgroundColor = config?.backgroundColor ?? "#f7f6f2";
   const textColor = config?.textColor ?? "#0f172a";
+  const strokeColor = config?.strokeColor ?? "rgba(0, 0, 0, 0.7)";
+  const strokeWidth = config?.strokeWidth ?? 2;
   const fontSize = config?.fontSize ?? 56;
   const fontFamily =
     config?.fontFamily ?? "'Noto Sans JP', 'Hiragino Sans', sans-serif";
@@ -122,7 +124,8 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
             textAlign: "center",
             textShadow: "0 2px 12px rgba(0, 0, 0, 0.25)",
             whiteSpace: "pre-wrap",
-            WebkitTextStroke: "0.5px rgba(0, 0, 0, 0.4)",
+            WebkitTextStroke: `${strokeWidth}px ${strokeColor}`,
+            paintOrder: "stroke fill",
           }}
         >
           {activeLine.text}

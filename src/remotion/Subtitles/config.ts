@@ -3,6 +3,8 @@ export type SubtitleConfig = {
   wavPath?: string;
   backgroundColor?: string;
   textColor?: string;
+  strokeColor?: string;
+  strokeWidth?: number;
   fontSize?: number;
   fontFamily?: string;
   paddingBottom?: number;
