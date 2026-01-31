@@ -12,6 +12,8 @@ export type VvprojAudioQuery = {
   accentPhrases?: VvprojAccentPhrase[];
   prePhonemeLength?: number | null;
   postPhonemeLength?: number | null;
+  speedScale?: number | null;
+  pauseLengthScale?: number | null;
 };
 
 export type VvprojAudioItem = {
@@ -37,6 +39,7 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
   }
 
   let total = 0;
+  const pauseScale = numberOrZero(query.pauseLengthScale ?? 1) || 1;
   total += numberOrZero(query.prePhonemeLength ?? 0);
   total += numberOrZero(query.postPhonemeLength ?? 0);
 
@@ -47,11 +50,12 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
     }
 
     if (phrase.pauseMora) {
-      total += numberOrZero(phrase.pauseMora.vowelLength ?? 0);
+      total += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
     }
   }
 
-  return total;
+  const speedScale = numberOrZero(query.speedScale ?? 1) || 1;
+  return total / speedScale;
 };
 
 export type TalkLine = {

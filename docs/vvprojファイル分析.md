@@ -15,7 +15,7 @@ WAV を生成せずに各セリフの発話時間を高速に算出するため�
 列挙順に頼らず `audioKeys` の順で処理する。
 
 ### 2) 高速算出で得られる時間
-`query` 内のモーラ長・休止・前後無音を合算することで、
+`query` 内のモーラ長・休止・前後無音を合算し、話速とポーズ倍率を反映することで、
 「エンジンが設計上想定する発話時間（秒）」を算出できる。
 
 これは実際の WAV サンプル長と完全一致する保証はないが、
@@ -25,16 +25,19 @@ WAV を生成せずに各セリフの発話時間を高速に算出するため�
 以下を合算する。
 
 ```
-発話時間 = prePhonemeLength
+発話時間 = (prePhonemeLength
         + Σ(アクセント句)
             + Σ(各 mora の consonantLength + vowelLength)
-            + (pauseMora があればその vowelLength)
-        + postPhonemeLength
+            + (pauseMora があればその vowelLength * pauseLengthScale)
+        + postPhonemeLength)
+        / speedScale
 ```
 
 ### 補足
 - `consonantLength` が無い mora は 0 として扱う
 - `pauseMora` はアクセント句の後ろに入る休止
+- `pauseLengthScale` は pauseMora の長さに乗算する
+- `speedScale` は合計時間に対する割り算として反映する
 - `speedScale` などは query 生成時点で反映済みの前提
 
 ## 具体的な手順
