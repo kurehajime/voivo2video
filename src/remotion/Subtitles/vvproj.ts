@@ -2,12 +2,14 @@
 export type VvprojMora = {
   consonantLength?: number | null;
   vowelLength?: number | null;
+  pitch?: number | null;
 };
 
 // アクセント句。mora の列と句間ポーズを持つ
 export type VvprojAccentPhrase = {
   moras?: VvprojMora[];
   pauseMora?: VvprojMora | null;
+  isInterrogative?: boolean;
 };
 
 // VOICEVOX の AudioQuery 相当（時間算出に必要な最小フィールド）
@@ -65,6 +67,15 @@ export const calcQueryDurationSec = (
 
     if (phrase.pauseMora) {
       phonemeTotal += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
+    }
+
+    if (phrase.isInterrogative) {
+      const moras = phrase.moras ?? [];
+      const last = moras[moras.length - 1];
+      if (last && numberOrZero(last.pitch ?? 0) > 0) {
+        // VOICEVOX 側の疑問形上げ（固定 0.15s）を加算
+        phonemeTotal += 0.15;
+      }
     }
   }
 
