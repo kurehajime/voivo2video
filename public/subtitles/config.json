@@ -25,7 +25,9 @@
       "id": "zunda",
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
       "imagePath": "images/zunda_normal.png",
-      "activeImagePath": "images/zunda_active.png",
+      "activeImagePath": "images/zunda_active1.png",
+      "activeImagePath2": "images/zunda_active2.png",
+      "activeToggleFrames": 8,
       "position": {
         "x": 750,
         "y": 200
@@ -37,8 +39,10 @@
       "id": "metan",
       "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
       "imagePath": "images/metan_normal.png",
-      "activeImagePath": "images/metan_active.png",
+      "activeImagePath": "images/metan_active1.png",
+      "activeImagePath2": "images/metan_active2.png",
       "flipX": false,
+      "activeToggleFrames": 8,
       "position": {
         "x": -100,
         "y": 200

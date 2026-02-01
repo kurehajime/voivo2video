@@ -55,8 +55,10 @@
       "id": "zunda",
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
       "imagePath": "images/zunda_normal.png",
-      "activeImagePath": "images/zunda_active.png",
+      "activeImagePath": "images/zunda_active1.png",
+      "activeImagePath2": "images/zunda_active2.png",
       "flipX": false,
+      "activeToggleFrames": 6,
       "position": {
         "x": 80,
         "y": 200
@@ -91,7 +93,9 @@
   - `speakerId`: 話者ID
   - `imagePath`: 画像パス（通常状態）
   - `activeImagePath` (任意): 画像パス（発話状態）
+  - `activeImagePath2` (任意): 画像パス（発話状態2）
   - `flipX` (任意): 左右反転（true で反転）
+  - `activeToggleFrames` (任意): 発話中の切替間隔（フレーム）
   - `position`: 配置座標
   - `width`: 幅
   - `height`: 高さ

@@ -22,7 +22,9 @@ export type SubtitleConfig = {
     speakerId: string;
     imagePath: string;
     activeImagePath?: string;
+    activeImagePath2?: string;
     flipX?: boolean;
+    activeToggleFrames?: number;
     position: {
       x: number;
       y: number;

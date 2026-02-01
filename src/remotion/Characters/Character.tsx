@@ -8,8 +8,10 @@ type Interval = {
 type CharacterProps = {
   src: string;
   activeSrc?: string;
+  activeSrc2?: string;
   activeIntervals?: Interval[];
   flipX?: boolean;
+  activeToggleFrames?: number;
   position: {
     x: number;
     y: number;
@@ -33,15 +35,31 @@ const isActiveAtFrame = (frame: number, intervals?: Interval[]): boolean => {
 export const Character: React.FC<CharacterProps> = ({
   src,
   activeSrc,
+  activeSrc2,
   activeIntervals,
   flipX,
+  activeToggleFrames,
   position,
   width,
   height,
 }) => {
   const frame = useCurrentFrame();
   const active = isActiveAtFrame(frame, activeIntervals);
-  const imageSrc = active && activeSrc ? activeSrc : src;
+  const toggleFrames = activeToggleFrames ?? 6;
+  const activeFrame =
+    toggleFrames <= 0 ? 0 : Math.floor(frame / toggleFrames);
+  const hasActiveSet = !!activeSrc || !!activeSrc2;
+  let imageSrc = src;
+
+  if (active && hasActiveSet) {
+    if (activeSrc && activeSrc2) {
+      imageSrc = activeFrame % 2 === 0 ? activeSrc : activeSrc2;
+    } else if (activeSrc) {
+      imageSrc = activeSrc;
+    } else if (activeSrc2) {
+      imageSrc = activeSrc2;
+    }
+  }
 
   return (
     <div

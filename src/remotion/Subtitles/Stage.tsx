@@ -191,8 +191,14 @@ export const Stage: React.FC<StageProps> = ({
                   ? staticFile(character.activeImagePath)
                   : undefined
               }
+              activeSrc2={
+                character.activeImagePath2
+                  ? staticFile(character.activeImagePath2)
+                  : undefined
+              }
               activeIntervals={activeIntervals}
               flipX={character.flipX}
+              activeToggleFrames={character.activeToggleFrames}
               position={character.position}
               width={character.width}
               height={character.height}
