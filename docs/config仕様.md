@@ -8,13 +8,14 @@
 
 ## config_list.json
 字幕コンポジションの一覧。
+設定ファイルを複数用意して管理することができます。
 
 例:
 ```json
 [
   {
     "id": "test",
-    "configUrl": "subtitles/config.json"
+    "configUrl": "sample/config.json"
   }
 ]
 ```
@@ -90,4 +91,14 @@
   - `width`: 幅
   - `height`: 高さ
 
+### 結局どれをいじればいいの？
 
+* キャラを差し替えたい、追加したい
+  * speakerIdを[キャラ一覧](./speakerId一覧.md)をもとに差し替えてください
+  * 新しいキャラを追加する場合はcharacters配列にオブジェクトを追加してください
+* 立ち絵画像を差し替えたい
+  * imagePath, activeImagePath, activeImagePath2を差し替えてください
+* 立ち絵の位置やサイズを変えたい
+  * position, width, heightを調整してください
+* 字幕のフォントや色を変えたい
+  * textColor, strokeColor, strokeWidth, fontSize, fontFamilyを調整してください
