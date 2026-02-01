@@ -75,7 +75,7 @@
 - `cssPath` (任意): 字幕用のCSSファイルのパス（public 配下の相対パス）
 - `characters` (任意): 立ち絵の表示設定配列
   - `id` (任意): キャラ識別子（省略時は speakerId を使用）
-  - `speakerId`: 話者ID
+  - `speakerId`: 話者ID [どのキャラ](./speakerId一覧.md)の音声を使用するか
   - `imagePath`: 画像パス（通常状態）
   - `activeImagePath` (任意): 画像パス（発話状態）
   - `activeImagePath2` (任意): 画像パス（発話状態2）
@@ -91,7 +91,3 @@
   - `height`: 高さ
 
 
-
-## 仕様メモ
-- `configUrl` と各パスは `public/` からの相対パス
-- 字幕の尺は vvproj の talk セリフから算出
