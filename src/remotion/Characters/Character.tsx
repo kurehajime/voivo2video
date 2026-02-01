@@ -1,9 +1,10 @@
-import { useCurrentFrame } from "remotion";
+import { Img, useCurrentFrame, useVideoConfig } from "remotion";
 
 type Interval = {
   start: number;
   end: number;
   toggleFrames?: number;
+  speedScale?: number;
 };
 
 type CharacterProps = {
@@ -50,6 +51,7 @@ export const Character: React.FC<CharacterProps> = ({
   const frame = useCurrentFrame();
   const activeInterval = getActiveInterval(frame, activeIntervals);
   const active = !!activeInterval;
+  const { fps } = useVideoConfig();
   const toggleFrames = activeInterval?.toggleFrames ?? activeToggleFrames ?? 6;
   const activeFrame = toggleFrames <= 0 ? 0 : Math.floor(frame / toggleFrames);
   const hasActiveSet = !!activeSrc || !!activeSrc2;
@@ -65,6 +67,20 @@ export const Character: React.FC<CharacterProps> = ({
     }
   }
 
+  const localFrame = activeInterval ? frame - activeInterval.start : 0;
+  const speedScale = activeInterval?.speedScale ?? 1;
+  const stretchCycleFrames = Math.max(
+    1,
+    Math.round((fps * 0.4) / speedScale),
+  );
+  const stretchPhase = (localFrame % stretchCycleFrames) / stretchCycleFrames;
+  const stretchPulse = active
+    ? 0.3 - 0.3 * Math.cos(stretchPhase * Math.PI * 2)
+    : 0;
+  const scaleY = 1 + stretchPulse * 0.05;
+  const lift = stretchPulse * 2;
+  const scaleX = flipX ? -1 : 1;
+
   return (
     <div
       style={{
@@ -73,11 +89,11 @@ export const Character: React.FC<CharacterProps> = ({
         top: position.y,
         width,
         height,
-        transform: flipX ? "scaleX(-1)" : undefined,
-        transformOrigin: "center",
+        transform: `translate(0px, ${-lift}px) scaleX(${scaleX}) scaleY(${scaleY})`,
+        transformOrigin: "center bottom",
       }}
     >
-      <img
+      <Img
         src={imageSrc}
         style={{
           width: "100%",

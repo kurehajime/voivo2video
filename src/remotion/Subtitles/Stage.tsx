@@ -166,7 +166,12 @@ export const Stage: React.FC<StageProps> = ({
 
     const map = new Map<
       string,
-      Array<{ start: number; end: number; toggleFrames?: number }>
+      Array<{
+        start: number;
+        end: number;
+        toggleFrames?: number;
+        speedScale?: number;
+      }>
     >();
     for (const line of lines) {
       if (!line.speakerId) {
@@ -184,6 +189,7 @@ export const Stage: React.FC<StageProps> = ({
         start: line.activeStartFrame,
         end: line.activeEndFrame,
         toggleFrames,
+        speedScale,
       });
       map.set(line.speakerId, list);
     }
@@ -192,7 +198,12 @@ export const Stage: React.FC<StageProps> = ({
       const merged = intervals
         .sort((a, b) => a.start - b.start)
         .reduce<
-          Array<{ start: number; end: number; toggleFrames?: number }>
+          Array<{
+            start: number;
+            end: number;
+            toggleFrames?: number;
+            speedScale?: number;
+          }>
         >((result, interval) => {
           const last = result[result.length - 1];
           if (!last) {
@@ -202,6 +213,7 @@ export const Stage: React.FC<StageProps> = ({
           if (interval.start - last.end <= activeMergeGapFrames) {
             last.end = Math.max(last.end, interval.end);
             last.toggleFrames = interval.toggleFrames ?? last.toggleFrames;
+            last.speedScale = interval.speedScale ?? last.speedScale;
           } else {
             result.push(interval);
           }
