@@ -233,7 +233,9 @@ export const Stage: React.FC<StageProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor }}>
-      {config?.wavPath ? <Audio src={staticFile(config.wavPath)} /> : null}
+      {mode === "all" && config?.wavPath ? (
+        <Audio src={staticFile(config.wavPath)} />
+      ) : null}
       {/* 立ち絵は字幕のみ出力のときは非表示 */}
       {mode !== "subtitles" &&
         (config?.characters ?? []).map((character) => {

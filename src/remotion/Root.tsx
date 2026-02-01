@@ -16,6 +16,7 @@ import { Stage as SubtitleStage } from "./Subtitles/Stage";
 import { getTalkEndSeconds, type Vvproj } from "./Subtitles/vvproj";
 import type { SubtitleConfig } from "./Subtitles/config";
 import { CONFIG_LIST_JSON } from "./setting";
+import { getAudioDuration } from "../lib/audio-duration";
 
 export const RemotionRoot: React.FC = () => {
   const fps = VIDEO_FPS;
@@ -93,7 +94,20 @@ export const RemotionRoot: React.FC = () => {
     if (!configResponse.ok) {
       throw new Error(`Failed to load config: ${configResponse.status}`);
     }
-    const config = (await configResponse.json()) as { vvprojPath: string };
+    const config = (await configResponse.json()) as SubtitleConfig;
+    if (config.wavPath) {
+      const durationInSeconds = await getAudioDuration(
+        staticFile(config.wavPath),
+      );
+      const durationInFrames = Math.max(
+        1,
+        Math.ceil(durationInSeconds * fps),
+      );
+      return {
+        durationInFrames,
+        props,
+      };
+    }
     const vvprojResponse = await fetch(staticFile(config.vvprojPath));
     if (!vvprojResponse.ok) {
       throw new Error(`Failed to load vvproj: ${vvprojResponse.status}`);

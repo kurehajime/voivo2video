@@ -10,6 +10,8 @@ import {
 } from "../../types/constants";
 import { Stage as SubtitleStage } from "../remotion/Subtitles/Stage";
 import { getTalkEndSeconds, type Vvproj } from "../remotion/Subtitles/vvproj";
+import type { SubtitleConfig } from "../remotion/Subtitles/config";
+import { getAudioDuration } from "../lib/audio-duration";
 
 const Home: NextPage = () => {
   const [durationInFrames, setDurationInFrames] = useState<number>(150);
@@ -30,7 +32,15 @@ const Home: NextPage = () => {
       if (!configResponse.ok) {
         return;
       }
-      const config = (await configResponse.json()) as { vvprojPath: string };
+      const config = (await configResponse.json()) as SubtitleConfig;
+      if (config.wavPath) {
+        const seconds = await getAudioDuration(`/${config.wavPath}`);
+        if (cancelled) {
+          return;
+        }
+        setDurationInFrames(Math.max(1, Math.ceil(seconds * VIDEO_FPS)));
+        return;
+      }
       const vvprojResponse = await fetch(`/${config.vvprojPath}`);
       if (!vvprojResponse.ok) {
         return;

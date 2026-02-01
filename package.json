@@ -17,6 +17,7 @@
     "@remotion/shapes": "4.0.414",
     "@remotion/tailwind-v4": "4.0.414",
     "clsx": "2.1.1",
+    "mediabunny": "1.2.0",
     "next": "16.1.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
