@@ -22,6 +22,8 @@ type StageProps = {
 type LineWithFrames = TalkLine & {
   startFrame: number;
   endFrame: number;
+  activeStartFrame: number;
+  activeEndFrame: number;
 };
 
 export const Stage: React.FC<StageProps> = ({
@@ -88,10 +90,28 @@ export const Stage: React.FC<StageProps> = ({
       .map((line) => {
         const startFrame = Math.max(0, Math.floor(line.startSec * fps));
         const endFrame = Math.max(startFrame + 1, Math.ceil(line.endSec * fps));
+        const activeStartSec = Math.min(
+          line.endSec,
+          line.startSec + line.prePhonemeLength,
+        );
+        const activeEndSec = Math.max(
+          line.startSec,
+          line.endSec - line.postPhonemeLength,
+        );
+        const activeStartFrame = Math.max(
+          0,
+          Math.floor(activeStartSec * fps),
+        );
+        const activeEndFrame = Math.max(
+          activeStartFrame + 1,
+          Math.ceil(activeEndSec * fps),
+        );
         return {
           ...line,
           startFrame,
           endFrame,
+          activeStartFrame,
+          activeEndFrame,
         };
       });
   }, [fps, vvproj]);
@@ -138,20 +158,42 @@ export const Stage: React.FC<StageProps> = ({
   ]);
 
   const activeIntervalsBySpeaker = useMemo(() => {
-    const map = new Map<string, Array<{ start: number; end: number }>>();
+    const speakerBaseToggleFrames = new Map<string, number>();
+    for (const character of config?.characters ?? []) {
+      const base = character.activeToggleFrames ?? 6;
+      speakerBaseToggleFrames.set(character.speakerId, base);
+    }
+
+    const map = new Map<
+      string,
+      Array<{ start: number; end: number; toggleFrames?: number }>
+    >();
     for (const line of lines) {
       if (!line.speakerId) {
         continue;
       }
       const list = map.get(line.speakerId) ?? [];
-      list.push({ start: line.startFrame, end: line.endFrame });
+      const baseToggleFrames =
+        speakerBaseToggleFrames.get(line.speakerId) ?? 6;
+      const speedScale = line.speedScale > 0 ? line.speedScale : 1;
+      const toggleFrames = Math.max(
+        1,
+        Math.round(baseToggleFrames / speedScale),
+      );
+      list.push({
+        start: line.activeStartFrame,
+        end: line.activeEndFrame,
+        toggleFrames,
+      });
       map.set(line.speakerId, list);
     }
 
     for (const [speakerId, intervals] of map.entries()) {
       const merged = intervals
         .sort((a, b) => a.start - b.start)
-        .reduce<Array<{ start: number; end: number }>>((result, interval) => {
+        .reduce<
+          Array<{ start: number; end: number; toggleFrames?: number }>
+        >((result, interval) => {
           const last = result[result.length - 1];
           if (!last) {
             result.push(interval);
@@ -159,6 +201,7 @@ export const Stage: React.FC<StageProps> = ({
           }
           if (interval.start - last.end <= activeMergeGapFrames) {
             last.end = Math.max(last.end, interval.end);
+            last.toggleFrames = interval.toggleFrames ?? last.toggleFrames;
           } else {
             result.push(interval);
           }

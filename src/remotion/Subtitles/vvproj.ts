@@ -65,6 +65,9 @@ export type TalkLine = {
   key: string;
   text: string;
   speakerId: string | null;
+  prePhonemeLength: number;
+  postPhonemeLength: number;
+  speedScale: number;
   startSec: number;
   endSec: number;
   durationSec: number;
@@ -87,14 +90,30 @@ export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
     if (!item) {
       continue;
     }
-    const durationSec = calcQueryDurationSec(item.query ?? undefined);
+    const query = item.query ?? undefined;
+    const durationSec = calcQueryDurationSec(query);
     const startSec = cursor;
     const endSec = startSec + durationSec;
+    const prePhonemeLength =
+      typeof query?.prePhonemeLength === "number"
+        ? query.prePhonemeLength
+        : 0;
+    const postPhonemeLength =
+      typeof query?.postPhonemeLength === "number"
+        ? query.postPhonemeLength
+        : 0;
+    const speedScale =
+      typeof query?.speedScale === "number" && Number.isFinite(query.speedScale)
+        ? query.speedScale
+        : 1;
 
     lines.push({
       key,
       text: item.text ?? "",
       speakerId: item.voice?.speakerId ?? null,
+      prePhonemeLength,
+      postPhonemeLength,
+      speedScale,
       startSec,
       endSec,
       durationSec,

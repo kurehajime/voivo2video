@@ -3,6 +3,7 @@ import { useCurrentFrame } from "remotion";
 type Interval = {
   start: number;
   end: number;
+  toggleFrames?: number;
 };
 
 type CharacterProps = {
@@ -20,16 +21,19 @@ type CharacterProps = {
   height: number;
 };
 
-const isActiveAtFrame = (frame: number, intervals?: Interval[]): boolean => {
+const getActiveInterval = (
+  frame: number,
+  intervals?: Interval[],
+): Interval | null => {
   if (!intervals || intervals.length === 0) {
-    return false;
+    return null;
   }
   for (const interval of intervals) {
     if (frame >= interval.start && frame < interval.end) {
-      return true;
+      return interval;
     }
   }
-  return false;
+  return null;
 };
 
 export const Character: React.FC<CharacterProps> = ({
@@ -44,10 +48,10 @@ export const Character: React.FC<CharacterProps> = ({
   height,
 }) => {
   const frame = useCurrentFrame();
-  const active = isActiveAtFrame(frame, activeIntervals);
-  const toggleFrames = activeToggleFrames ?? 6;
-  const activeFrame =
-    toggleFrames <= 0 ? 0 : Math.floor(frame / toggleFrames);
+  const activeInterval = getActiveInterval(frame, activeIntervals);
+  const active = !!activeInterval;
+  const toggleFrames = activeInterval?.toggleFrames ?? activeToggleFrames ?? 6;
+  const activeFrame = toggleFrames <= 0 ? 0 : Math.floor(frame / toggleFrames);
   const hasActiveSet = !!activeSrc || !!activeSrc2;
   let imageSrc = src;
 
