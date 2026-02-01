@@ -13,14 +13,6 @@ export type SubtitleConfig = {
   cssPath?: string;
   // 口パクのアクティブ区間を近接結合するためのしきい値（フレーム）
   activeMergeGapFrames?: number;
-  speakers?: Array<{
-    speakerId: string;
-    textColor?: string;
-    strokeColor?: string;
-    strokeWidth?: number;
-    fontSize?: number;
-    fontFamily?: string;
-  }>;
   characters?: Array<{
     id?: string;
     speakerId: string;
@@ -30,6 +22,11 @@ export type SubtitleConfig = {
     flipX?: boolean;
     // 発話中の切替間隔（フレーム）
     activeToggleFrames?: number;
+    textColor?: string;
+    strokeColor?: string;
+    strokeWidth?: number;
+    fontSize?: number;
+    fontFamily?: string;
     position: {
       x: number;
       y: number;

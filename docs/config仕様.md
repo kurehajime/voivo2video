@@ -39,18 +39,6 @@
   "paddingBottom": 80,
   "activeMergeGapFrames": 2,
   "cssPath": "sample/sample.css",
-  "speakers": [
-    {
-      "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
-      "textColor": "#ffffff",
-      "strokeColor": "#00cc33"
-    },
-    {
-      "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
-      "textColor": "#ffffff",
-      "strokeColor": "#cc00cc"
-    }
-  ],
   "characters": [
     {
       "id": "zunda",
@@ -60,6 +48,8 @@
       "activeImagePath2": "images/zunda_active2.png",
       "flipX": false,
       "activeToggleFrames": 6,
+      "textColor": "#ffffff",
+      "strokeColor": "#00cc33",
       "position": {
         "x": 80,
         "y": 200
@@ -83,13 +73,6 @@
 - `paddingBottom` (任意): 画面下からの余白（px）
 - `activeMergeGapFrames` (任意): 発話区間の結合しきい値（フレーム）
 - `cssPath` (任意): 字幕用のCSSファイルのパス（public 配下の相対パス）
-- `speakers` (任意): 話者ごとの表示設定配列
-  - `speakerId`: 話者ID
-  - `textColor` (任意): 文字色
-  - `strokeColor` (任意): 縁取り色
-  - `strokeWidth` (任意): 縁取りの太さ（px）
-  - `fontSize` (任意): フォントサイズ
-  - `fontFamily` (任意): フォントファミリー
 - `characters` (任意): 立ち絵の表示設定配列
   - `id` (任意): キャラ識別子（省略時は speakerId を使用）
   - `speakerId`: 話者ID
@@ -98,6 +81,11 @@
   - `activeImagePath2` (任意): 画像パス（発話状態2）
   - `flipX` (任意): 左右反転（true で反転）
   - `activeToggleFrames` (任意): 発話中の切替間隔（フレーム）
+  - `textColor` (任意): 文字色
+  - `strokeColor` (任意): 縁取り色
+  - `strokeWidth` (任意): 縁取りの太さ（px）
+  - `fontSize` (任意): フォントサイズ
+  - `fontFamily` (任意): フォントファミリー
   - `position`: 配置座標
   - `width`: 幅
   - `height`: 高さ

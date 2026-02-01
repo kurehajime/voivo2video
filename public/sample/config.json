@@ -6,21 +6,9 @@
   "strokeColor": "#ff00ff",
   "strokeWidth": 10,
   "fontSize": 56,
-  "paddingBottom": 80,
+  "paddingBottom": 40,
   "activeMergeGapFrames": 2,
   "cssPath": "sample/sample.css",
-  "speakers": [
-    {
-      "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
-      "textColor": "#ffffff",
-      "strokeColor": "#00cc33"
-    },
-    {
-      "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
-      "textColor": "#ffffff",
-      "strokeColor": "#cc00cc"
-    }
-  ],
   "characters": [
     {
       "id": "zunda",
@@ -29,6 +17,8 @@
       "activeImagePath": "images/zunda_active1.png",
       "activeImagePath2": "images/zunda_active2.png",
       "activeToggleFrames": 8,
+      "textColor": "#ffffff",
+      "strokeColor": "#00cc33",
       "position": {
         "x": 750,
         "y": 200
@@ -44,6 +34,8 @@
       "activeImagePath2": "images/metan_active2.png",
       "flipX": false,
       "activeToggleFrames": 8,
+      "textColor": "#ffffff",
+      "strokeColor": "#cc00cc",
       "position": {
         "x": -100,
         "y": 200

@@ -169,7 +169,7 @@ export const Stage: React.FC<StageProps> = ({
   const activeStyle = useMemo(() => {
     const speakerId = activeLine?.speakerId ?? null;
     const override = speakerId
-      ? config?.speakers?.find((entry) => entry.speakerId === speakerId)
+      ? config?.characters?.find((entry) => entry.speakerId === speakerId)
       : undefined;
     return {
       textColor: override?.textColor ?? defaultTextColor,
@@ -180,7 +180,7 @@ export const Stage: React.FC<StageProps> = ({
     };
   }, [
     activeLine?.speakerId,
-    config?.speakers,
+    config?.characters,
     defaultTextColor,
     defaultStrokeColor,
     defaultStrokeWidth,
