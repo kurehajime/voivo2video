@@ -6,6 +6,12 @@
 import { Config } from "@remotion/cli/config";
 import { webpackOverride } from "./src/remotion/webpack-override.mjs";
 
-Config.setVideoImageFormat("jpeg");
+// Studio のレンダー設定でも透過を保持できるようにする（ProRes 4444）
+Config.setVideoImageFormat("png");
+Config.setPixelFormat("yuva444p10le");
+Config.setCodec("prores");
+Config.setProResProfile("4444");
+// 音声が無い場合はオーディオトラックを生成しない
+Config.setEnforceAudioTrack(false);
 
 Config.overrideWebpackConfig(webpackOverride);

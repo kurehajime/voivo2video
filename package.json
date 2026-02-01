@@ -53,7 +53,7 @@
     "start": "next start",
     "lint": "eslint .",
     "remotion": "remotion studio",
-    "render": "remotion render",
+    "render": "remotion render --codec=prores --prores-profile=4444 --pixel-format=yuva444p10le --image-format=png",
     "deploy": "node deploy.mjs"
   }
 }

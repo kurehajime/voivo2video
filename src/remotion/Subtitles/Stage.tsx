@@ -129,7 +129,7 @@ export const Stage: React.FC<StageProps> = ({
     return null;
   }, [frame, lines]);
 
-  const backgroundColor = config?.backgroundColor ?? "#f7f6f2";
+  const backgroundColor = "transparent";
   const defaultTextColor = config?.textColor ?? "#0f172a";
   const defaultStrokeColor = config?.strokeColor ?? "rgba(0, 0, 0, 0.7)";
   const defaultStrokeWidth = config?.strokeWidth ?? 2;
@@ -233,8 +233,13 @@ export const Stage: React.FC<StageProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor }}>
-      {mode === "all" && config?.wavPath ? (
-        <Audio src={staticFile(config.wavPath)} />
+      {config?.wavPath ? (
+        mode === "all" ? (
+          <Audio src={staticFile(config.wavPath)} />
+        ) : (
+          // 非 All は無音トラックを明示的に作り、ノイズ混入を防ぐ
+          <Audio src={staticFile(config.wavPath)} volume={0} />
+        )
       ) : null}
       {/* 立ち絵は字幕のみ出力のときは非表示 */}
       {mode !== "subtitles" &&
