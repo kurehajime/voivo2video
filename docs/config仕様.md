@@ -40,6 +40,7 @@
   "paddingBottom": 80,
   "activeMergeGapFrames": 2,
   "cssPath": "sample/sample.css",
+  "speedScaleMode": "all",
   "characters": [
     {
       "id": "zunda",
@@ -74,6 +75,9 @@
 - `paddingBottom` (任意): 画面下からの余白（px）
 - `activeMergeGapFrames` (任意): 発話区間の結合しきい値（フレーム）
 - `cssPath` (任意): 字幕用のCSSファイルのパス（public 配下の相対パス）
+- `speedScaleMode` (任意): speedScale の適用方式
+  - `all`: 合計時間に対して割る
+  - `phonemeOnly`: モーラ・ポーズの合計のみ割る（pre/post は対象外）
 - `characters` (任意): 立ち絵の表示設定配列
   - `id` (任意): キャラ識別子（省略時は speakerId を使用）
   - `speakerId`: 話者ID [どのキャラ](./speakerId一覧.md)の音声を使用するか

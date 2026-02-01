@@ -9,6 +9,7 @@
   "paddingBottom": 40,
   "activeMergeGapFrames": 2,
   "cssPath": "sample/sample.css",
+  "speedScaleMode": "phonemeOnly",
   "characters": [
     {
       "id": "zunda",

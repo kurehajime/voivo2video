@@ -113,7 +113,8 @@ export const Stage: React.FC<StageProps> = ({
       return [];
     }
 
-    return getTalkLines(vvproj)
+    const speedScaleMode = config?.speedScaleMode ?? "all";
+    return getTalkLines(vvproj, speedScaleMode)
       .filter((line) => line.text.trim().length > 0)
       .map((line) => {
         // セリフ全体の表示区間（字幕用）

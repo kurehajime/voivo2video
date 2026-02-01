@@ -49,7 +49,8 @@ const Home: NextPage = () => {
       if (cancelled) {
         return;
       }
-      const seconds = getTalkEndSeconds(vvproj);
+      const speedScaleMode = config.speedScaleMode ?? "all";
+      const seconds = getTalkEndSeconds(vvproj, speedScaleMode);
       setDurationInFrames(Math.max(1, Math.ceil(seconds * VIDEO_FPS)));
     };
 

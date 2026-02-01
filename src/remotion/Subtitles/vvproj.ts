@@ -43,7 +43,10 @@ const numberOrZero = (value: number | null | undefined): number => {
 };
 
 // query から「設計上の発話時間（秒）」を合算する
-export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number => {
+export const calcQueryDurationSec = (
+  query?: VvprojAudioQuery | null,
+  speedScaleMode: "all" | "phonemeOnly" = "all",
+): number => {
   if (!query) {
     return 0;
   }
@@ -67,8 +70,12 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
 
   // 話速が速いほど時間は短くなるため、最後に割る
   const speedScale = numberOrZero(query.speedScale ?? 1) || 1;
-  total += phonemeTotal / speedScale;
-  return total;
+  if (speedScaleMode === "phonemeOnly") {
+    total += phonemeTotal / speedScale;
+    return total;
+  }
+  total += phonemeTotal;
+  return total / speedScale;
 };
 
 // セリフ単位のタイムライン情報
@@ -85,7 +92,10 @@ export type TalkLine = {
 };
 
 // audioKeys の順序でセリフ配列を作成する
-export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
+export const getTalkLines = (
+  vvproj: Vvproj,
+  speedScaleMode: "all" | "phonemeOnly" = "all",
+): TalkLine[] => {
   const talk = vvproj.talk ?? {};
   const audioItems = talk.audioItems ?? {};
   const orderedKeys = Array.isArray(talk.audioKeys)
@@ -103,7 +113,7 @@ export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
       continue;
     }
     const query = item.query ?? undefined;
-    const durationSec = calcQueryDurationSec(query);
+    const durationSec = calcQueryDurationSec(query, speedScaleMode);
     const startSec = cursor;
     const endSec = startSec + durationSec;
     const prePhonemeLength =
@@ -138,8 +148,11 @@ export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
 };
 
 // 最後のセリフ終了時刻を返す
-export const getTalkEndSeconds = (vvproj: Vvproj): number => {
-  const lines = getTalkLines(vvproj);
+export const getTalkEndSeconds = (
+  vvproj: Vvproj,
+  speedScaleMode: "all" | "phonemeOnly" = "all",
+): number => {
+  const lines = getTalkLines(vvproj, speedScaleMode);
   if (lines.length === 0) {
     return 0;
   }
