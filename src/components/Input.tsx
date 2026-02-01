@@ -5,6 +5,7 @@ export const Input: React.FC<{
   setText: React.Dispatch<React.SetStateAction<string>>;
   disabled?: boolean;
 }> = ({ text, setText, disabled }) => {
+  // 入力値をそのまま state に反映するシンプルな input
   const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       setText(e.currentTarget.value);

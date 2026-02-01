@@ -6,6 +6,7 @@ const viewBox = 100;
 const lines = 12;
 const width = viewBox * 0.08;
 
+// スピナーの1本分の矩形を生成
 const { path } = makeRect({
   height: viewBox * 0.24,
   width,
@@ -17,6 +18,7 @@ const translated = translatePath(path, viewBox / 2 - width / 2, viewBox * 0.03);
 export const Spinner: React.FC<{
   size: number;
 }> = ({ size }) => {
+  // SVG サイズは props に合わせる
   const style = useMemo(() => {
     return {
       width: size,

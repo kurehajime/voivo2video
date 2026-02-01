@@ -16,6 +16,7 @@ import { executeApi } from "../../../../helpers/api-response";
 export const POST = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
   RenderRequest,
   async (req, body) => {
+    // AWS 認証情報がない場合は明示的にエラーにする
     if (
       !process.env.AWS_ACCESS_KEY_ID &&
       !process.env.REMOTION_AWS_ACCESS_KEY_ID
@@ -33,6 +34,7 @@ export const POST = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
       );
     }
 
+    // Lambda 側でレンダリングを実行
     const result = await renderMediaOnLambda({
       codec: "h264",
       functionName: speculateFunctionName({

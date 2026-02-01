@@ -10,6 +10,7 @@ import { executeApi } from "../../../../helpers/api-response";
 export const POST = executeApi<ProgressResponse, typeof ProgressRequest>(
   ProgressRequest,
   async (req, body) => {
+    // Lambda のレンダリング進捗を問い合わせる
     const renderProgress = await getRenderProgress({
       bucketName: body.bucketName,
       functionName: speculateFunctionName({

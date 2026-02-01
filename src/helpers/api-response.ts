@@ -11,6 +11,7 @@ export type ApiResponse<Res> =
       data: Res;
     };
 
+// Zod バリデーション付きの API ハンドラを生成
 export const executeApi =
   <Res, Req extends ZodType>(
     schema: Req,
@@ -18,6 +19,7 @@ export const executeApi =
   ) =>
   async (req: Request) => {
     try {
+      // リクエストボディを検証してから処理する
       const payload = await req.json();
       const parsed = schema.parse(payload);
       const data = await handler(req, parsed);

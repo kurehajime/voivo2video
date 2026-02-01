@@ -45,6 +45,7 @@ export const Stage: React.FC<StageProps> = ({
         if (!configUrl) {
           throw new Error("configUrl is required");
         }
+        // Remotion の staticFile は public 配下の相対パスを解決する
         const configResponse = await fetch(staticFile(configUrl));
         if (!configResponse.ok) {
           throw new Error(`Failed to load config: ${configResponse.status}`);
@@ -88,8 +89,10 @@ export const Stage: React.FC<StageProps> = ({
     return getTalkLines(vvproj)
       .filter((line) => line.text.trim().length > 0)
       .map((line) => {
+        // セリフ全体の表示区間（字幕用）
         const startFrame = Math.max(0, Math.floor(line.startSec * fps));
         const endFrame = Math.max(startFrame + 1, Math.ceil(line.endSec * fps));
+        // 口パク用のアクティブ区間（前後無音を除外）
         const activeStartSec = Math.min(
           line.endSec,
           line.startSec + line.prePhonemeLength,
@@ -117,6 +120,7 @@ export const Stage: React.FC<StageProps> = ({
   }, [fps, vvproj]);
 
   const activeLine = useMemo(() => {
+    // 現在フレームに対応するセリフを取得
     for (const line of lines) {
       if (frame >= line.startFrame && frame < line.endFrame) {
         return line;
@@ -181,6 +185,7 @@ export const Stage: React.FC<StageProps> = ({
       const baseToggleFrames =
         speakerBaseToggleFrames.get(line.speakerId) ?? 6;
       const speedScale = line.speedScale > 0 ? line.speedScale : 1;
+      // 話速が速いほど口パク切替を速くする
       const toggleFrames = Math.max(
         1,
         Math.round(baseToggleFrames / speedScale),
@@ -195,6 +200,7 @@ export const Stage: React.FC<StageProps> = ({
     }
 
     for (const [speakerId, intervals] of map.entries()) {
+      // 近接した区間を結合して、口パクのブツ切れを減らす
       const merged = intervals
         .sort((a, b) => a.start - b.start)
         .reduce<
@@ -228,6 +234,7 @@ export const Stage: React.FC<StageProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor }}>
       {config?.wavPath ? <Audio src={staticFile(config.wavPath)} /> : null}
+      {/* 立ち絵は字幕のみ出力のときは非表示 */}
       {mode !== "subtitles" &&
         (config?.characters ?? []).map((character) => {
           const id = character.id ?? character.speakerId;
@@ -260,6 +267,7 @@ export const Stage: React.FC<StageProps> = ({
             />
           );
         })}
+      {/* 立ち絵のみ出力のときは字幕を非表示 */}
       {mode !== "character" && activeLine ? (
         <div
           style={{

@@ -34,6 +34,7 @@ export const RemotionRoot: React.FC = () => {
 
     const load = async () => {
       try {
+        // config_list.json から字幕設定一覧を読み込む
         const response = await fetch(staticFile(CONFIG_LIST_JSON));
         if (!response.ok) {
           throw new Error(
@@ -48,6 +49,7 @@ export const RemotionRoot: React.FC = () => {
           return;
         }
         setConfigList(list);
+        // 各 config を先読みしてキャラクター出力用の Composition を作る
         const configs = await Promise.all(
           list.map(async (entry) => {
             const configResponse = await fetch(staticFile(entry.configUrl));
@@ -86,6 +88,7 @@ export const RemotionRoot: React.FC = () => {
     if (!configUrl) {
       throw new Error("configUrl is required");
     }
+    // vvproj を読み込み、セリフ長から尺を決定する
     const configResponse = await fetch(staticFile(configUrl));
     if (!configResponse.ok) {
       throw new Error(`Failed to load config: ${configResponse.status}`);
@@ -120,6 +123,7 @@ export const RemotionRoot: React.FC = () => {
           "vvproj-subtitles";
         const config = configMap[configUrl];
 
+        // 1つの config から All/Subtitles/Character の各出力を作る
         const compositions: JSX.Element[] = [
           <Composition
             key={`All-${id}`}

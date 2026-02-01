@@ -1,13 +1,16 @@
+// モーラ単位の長さ情報（秒）
 export type VvprojMora = {
   consonantLength?: number | null;
   vowelLength?: number | null;
 };
 
+// アクセント句。mora の列と句間ポーズを持つ
 export type VvprojAccentPhrase = {
   moras?: VvprojMora[];
   pauseMora?: VvprojMora | null;
 };
 
+// VOICEVOX の AudioQuery 相当（時間算出に必要な最小フィールド）
 export type VvprojAudioQuery = {
   accentPhrases?: VvprojAccentPhrase[];
   prePhonemeLength?: number | null;
@@ -16,6 +19,7 @@ export type VvprojAudioQuery = {
   pauseLengthScale?: number | null;
 };
 
+// talk.audioItems の要素
 export type VvprojAudioItem = {
   text?: string | null;
   voice?: {
@@ -24,6 +28,7 @@ export type VvprojAudioItem = {
   query?: VvprojAudioQuery | null;
 };
 
+// vvproj のうち talk セクションのみを扱う
 export type Vvproj = {
   talk?: {
     audioKeys?: string[];
@@ -32,10 +37,12 @@ export type Vvproj = {
   };
 };
 
+// 不正値は 0 として扱う
 const numberOrZero = (value: number | null | undefined): number => {
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 };
 
+// query から「設計上の発話時間（秒）」を合算する
 export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number => {
   if (!query) {
     return 0;
@@ -57,10 +64,12 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
     }
   }
 
+  // 話速が速いほど時間は短くなるため、最後に割る
   const speedScale = numberOrZero(query.speedScale ?? 1) || 1;
   return total / speedScale;
 };
 
+// セリフ単位のタイムライン情報
 export type TalkLine = {
   key: string;
   text: string;
@@ -73,6 +82,7 @@ export type TalkLine = {
   durationSec: number;
 };
 
+// audioKeys の順序でセリフ配列を作成する
 export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
   const talk = vvproj.talk ?? {};
   const audioItems = talk.audioItems ?? {};
@@ -125,6 +135,7 @@ export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
   return lines;
 };
 
+// 最後のセリフ終了時刻を返す
 export const getTalkEndSeconds = (vvproj: Vvproj): number => {
   const lines = getTalkLines(vvproj);
   if (lines.length === 0) {

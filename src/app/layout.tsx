@@ -17,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Next.js のルートレイアウト
   return (
     <html lang="en">
       <body className="bg-background">{children}</body>

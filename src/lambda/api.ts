@@ -34,6 +34,7 @@ export const renderVideo = async ({
   id: string;
   inputProps: z.infer<typeof SubtitleCompositionProps>;
 }) => {
+  // Lambda の render エンドポイントに投げるリクエストを作る
   const body: z.infer<typeof RenderRequest> = {
     id,
     inputProps,
@@ -49,6 +50,7 @@ export const getProgress = async ({
   id: string;
   bucketName: string;
 }) => {
+  // Lambda の進捗確認エンドポイントに投げる
   const body: z.infer<typeof ProgressRequest> = {
     id,
     bucketName,

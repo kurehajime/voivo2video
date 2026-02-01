@@ -3,6 +3,7 @@ import React from "react";
 export const ErrorComp: React.FC<{
   message: string;
 }> = ({ message }) => {
+  // エラーメッセージ表示（アイコン付き）
   return (
     <div className="text-geist-error font-geist py-geist-half">
       <svg

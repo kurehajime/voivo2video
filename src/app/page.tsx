@@ -14,6 +14,7 @@ import { getTalkEndSeconds, type Vvproj } from "../remotion/Subtitles/vvproj";
 const Home: NextPage = () => {
   const [durationInFrames, setDurationInFrames] = useState<number>(150);
 
+  // 固定の configUrl でローカル確認する
   const inputProps = useMemo(() => {
     return {
       configUrl: "subtitles/config.json",
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
     let cancelled = false;
 
     const loadDuration = async () => {
+      // vvproj のセリフ長を基準にプレイヤーの尺を決める
       const configResponse = await fetch(`/${inputProps.configUrl}`);
       if (!configResponse.ok) {
         return;

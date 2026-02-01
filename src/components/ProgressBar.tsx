@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 export const ProgressBar: React.FC<{
   progress: number;
 }> = ({ progress }) => {
+  // 0〜1 の進捗を幅に変換して表示する
   const fill: React.CSSProperties = useMemo(() => {
     return {
       width: `${progress * 100}%`,
