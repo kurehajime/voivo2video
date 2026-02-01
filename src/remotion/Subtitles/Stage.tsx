@@ -35,6 +35,7 @@ export const Stage: React.FC<StageProps> = ({
   const { fps } = useVideoConfig();
   const [config, setConfig] = useState<SubtitleConfig | null>(null);
   const [vvproj, setVvproj] = useState<Vvproj | null>(null);
+  const [subtitleCss, setSubtitleCss] = useState<string | null>(null);
   const [handle] = useState(() => delayRender("load subtitle config"));
 
   useEffect(() => {
@@ -80,6 +81,32 @@ export const Stage: React.FC<StageProps> = ({
       cancelled = true;
     };
   }, [configUrl, handle]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadCss = async () => {
+      const cssPath = config?.cssPath;
+      if (!cssPath) {
+        setSubtitleCss(null);
+        return;
+      }
+      const response = await fetch(staticFile(cssPath));
+      if (!response.ok) {
+        return;
+      }
+      const cssText = await response.text();
+      if (!cancelled) {
+        setSubtitleCss(cssText);
+      }
+    };
+
+    loadCss();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [config?.cssPath]);
 
   const lines = useMemo<LineWithFrames[]>(() => {
     if (!vvproj) {
@@ -241,6 +268,7 @@ export const Stage: React.FC<StageProps> = ({
           <Audio src={staticFile(config.wavPath)} volume={0} />
         )
       ) : null}
+      {subtitleCss ? <style>{subtitleCss}</style> : null}
       {/* 立ち絵は字幕のみ出力のときは非表示 */}
       {mode !== "subtitles" &&
         (config?.characters ?? []).map((character) => {
@@ -277,6 +305,7 @@ export const Stage: React.FC<StageProps> = ({
       {/* 立ち絵のみ出力のときは字幕を非表示 */}
       {mode !== "character" && activeLine ? (
         <div
+          id="subtitle"
           style={{
             position: "absolute",
             left: 80,
@@ -284,7 +313,8 @@ export const Stage: React.FC<StageProps> = ({
             bottom: paddingBottom,
             color: activeStyle.textColor,
             fontSize: activeStyle.fontSize,
-            fontFamily: activeStyle.fontFamily,
+            // CSS 側でフォント指定したい場合は上書きできるようにする
+            fontFamily: config?.cssPath ? undefined : activeStyle.fontFamily,
             lineHeight: 1.4,
             textAlign: "center",
             textShadow: "0 2px 12px rgba(0, 0, 0, 0.25)",

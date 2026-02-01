@@ -8,6 +8,7 @@
   "fontSize": 56,
   "paddingBottom": 80,
   "activeMergeGapFrames": 2,
+  "cssPath": "sample/sample.css",
   "speakers": [
     {
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",

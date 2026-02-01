@@ -38,6 +38,7 @@
   "fontFamily": "'Noto Sans JP', 'Hiragino Sans', sans-serif",
   "paddingBottom": 80,
   "activeMergeGapFrames": 2,
+  "cssPath": "sample/sample.css",
   "speakers": [
     {
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
@@ -81,6 +82,7 @@
 - `fontFamily` (任意): フォントファミリー
 - `paddingBottom` (任意): 画面下からの余白（px）
 - `activeMergeGapFrames` (任意): 発話区間の結合しきい値（フレーム）
+- `cssPath` (任意): 字幕用のCSSファイルのパス（public 配下の相対パス）
 - `speakers` (任意): 話者ごとの表示設定配列
   - `speakerId`: 話者ID
   - `textColor` (任意): 文字色

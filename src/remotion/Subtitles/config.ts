@@ -9,6 +9,8 @@ export type SubtitleConfig = {
   fontSize?: number;
   fontFamily?: string;
   paddingBottom?: number;
+  // 字幕用のCSSファイル（public 配下の相対パス）
+  cssPath?: string;
   // 口パクのアクティブ区間を近接結合するためのしきい値（フレーム）
   activeMergeGapFrames?: number;
   speakers?: Array<{

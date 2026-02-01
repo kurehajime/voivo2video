@@ -82,9 +82,9 @@ export const Character: React.FC<CharacterProps> = ({
   const stretchPhase = (localFrame % stretchCycleFrames) / stretchCycleFrames;
   // cos 波で 0→1→0 を作り、滑らかな伸縮にする
   const stretchPulse = active
-    ? 0.3 - 0.3 * Math.cos(stretchPhase * Math.PI * 2)
+    ? 0.2 - 0.2 * Math.cos(stretchPhase * Math.PI * 2)
     : 0;
-  const scaleY = 1 + stretchPulse * 0.05;
+  const scaleY = 1 + stretchPulse * 0.02;
   const lift = stretchPulse * 2;
   const scaleX = flipX ? -1 : 1;
 
