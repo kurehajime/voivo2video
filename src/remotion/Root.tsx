@@ -14,6 +14,7 @@ import {
 } from "../../types/constants";
 import { Stage as SubtitleStage } from "./Subtitles/Stage";
 import { getTalkEndSeconds, type Vvproj } from "./Subtitles/vvproj";
+import type { SubtitleConfig } from "./Subtitles/config";
 import { CONFIG_LIST_JSON } from "./setting";
 
 export const RemotionRoot: React.FC = () => {
@@ -21,7 +22,12 @@ export const RemotionRoot: React.FC = () => {
   const [configList, setConfigList] = useState<
     Array<{ id?: string; configUrl: string }>
   >([]);
-  const [handle] = useState(() => delayRender("load subtitle config list"));
+  const [configMap, setConfigMap] = useState<
+    Record<string, SubtitleConfig | undefined>
+  >({});
+  const [handle] = useState(() =>
+    delayRender("load subtitle config list"),
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -42,6 +48,21 @@ export const RemotionRoot: React.FC = () => {
           return;
         }
         setConfigList(list);
+        const configs = await Promise.all(
+          list.map(async (entry) => {
+            const configResponse = await fetch(staticFile(entry.configUrl));
+            if (!configResponse.ok) {
+              return [entry.configUrl, undefined] as const;
+            }
+            const configJson =
+              (await configResponse.json()) as SubtitleConfig;
+            return [entry.configUrl, configJson] as const;
+          }),
+        );
+        if (cancelled) {
+          return;
+        }
+        setConfigMap(Object.fromEntries(configs));
       } catch (error) {
         cancelRender(error);
       } finally {
@@ -97,10 +118,25 @@ export const RemotionRoot: React.FC = () => {
             .filter(Boolean)
             .slice(-2, -1)[0] ??
           "vvproj-subtitles";
+        const config = configMap[configUrl];
 
-        return (
+        const compositions: JSX.Element[] = [
           <Composition
-            key={id}
+            key={`All-${id}`}
+            id={`All-${id}`}
+            component={SubtitleStage}
+            durationInFrames={150}
+            fps={fps}
+            width={VIDEO_WIDTH}
+            height={VIDEO_HEIGHT}
+            defaultProps={{
+              configUrl,
+              mode: "all",
+            }}
+            calculateMetadata={calculateSubtitleMetadata}
+          />,
+          <Composition
+            key={`Subtitles-${id}`}
             id={`Subtitles-${id}`}
             component={SubtitleStage}
             durationInFrames={150}
@@ -109,10 +145,34 @@ export const RemotionRoot: React.FC = () => {
             height={VIDEO_HEIGHT}
             defaultProps={{
               configUrl,
+              mode: "subtitles",
             }}
             calculateMetadata={calculateSubtitleMetadata}
-          />
-        );
+          />,
+        ];
+
+        for (const character of config?.characters ?? []) {
+          const characterKey = character.id ?? character.speakerId;
+          compositions.push(
+            <Composition
+              key={`Character-${id}-${characterKey}`}
+              id={`Character-${id}-${characterKey}`}
+              component={SubtitleStage}
+              durationInFrames={150}
+              fps={fps}
+              width={VIDEO_WIDTH}
+              height={VIDEO_HEIGHT}
+              defaultProps={{
+                configUrl,
+                mode: "character",
+                characterId: characterKey,
+              }}
+              calculateMetadata={calculateSubtitleMetadata}
+            />,
+          );
+        }
+
+        return compositions;
       })}
     </>
   );

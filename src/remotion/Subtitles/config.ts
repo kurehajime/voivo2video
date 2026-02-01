@@ -8,6 +8,7 @@ export type SubtitleConfig = {
   fontSize?: number;
   fontFamily?: string;
   paddingBottom?: number;
+  activeMergeGapFrames?: number;
   speakers?: Array<{
     speakerId: string;
     textColor?: string;
@@ -15,5 +16,17 @@ export type SubtitleConfig = {
     strokeWidth?: number;
     fontSize?: number;
     fontFamily?: string;
+  }>;
+  characters?: Array<{
+    id?: string;
+    speakerId: string;
+    imagePath: string;
+    activeImagePath?: string;
+    position: {
+      x: number;
+      y: number;
+    };
+    width: number;
+    height: number;
   }>;
 };

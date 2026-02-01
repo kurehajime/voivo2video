@@ -11,9 +11,12 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import type { SubtitleConfig } from "./config";
 import { getTalkLines, type TalkLine, type Vvproj } from "./vvproj";
+import { Character } from "../Characters/Character";
 
 type StageProps = {
   configUrl?: string;
+  mode?: "all" | "subtitles" | "character";
+  characterId?: string;
 };
 
 type LineWithFrames = TalkLine & {
@@ -21,7 +24,11 @@ type LineWithFrames = TalkLine & {
   endFrame: number;
 };
 
-export const Stage: React.FC<StageProps> = ({ configUrl }) => {
+export const Stage: React.FC<StageProps> = ({
+  configUrl,
+  mode = "all",
+  characterId,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const [config, setConfig] = useState<SubtitleConfig | null>(null);
@@ -106,6 +113,7 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
   const defaultFontFamily =
     config?.fontFamily ?? "'Noto Sans JP', 'Hiragino Sans', sans-serif";
   const paddingBottom = config?.paddingBottom ?? 80;
+  const activeMergeGapFrames = config?.activeMergeGapFrames ?? 0;
 
   const activeStyle = useMemo(() => {
     const speakerId = activeLine?.speakerId ?? null;
@@ -129,10 +137,68 @@ export const Stage: React.FC<StageProps> = ({ configUrl }) => {
     defaultFontFamily,
   ]);
 
+  const activeIntervalsBySpeaker = useMemo(() => {
+    const map = new Map<string, Array<{ start: number; end: number }>>();
+    for (const line of lines) {
+      if (!line.speakerId) {
+        continue;
+      }
+      const list = map.get(line.speakerId) ?? [];
+      list.push({ start: line.startFrame, end: line.endFrame });
+      map.set(line.speakerId, list);
+    }
+
+    for (const [speakerId, intervals] of map.entries()) {
+      const merged = intervals
+        .sort((a, b) => a.start - b.start)
+        .reduce<Array<{ start: number; end: number }>>((result, interval) => {
+          const last = result[result.length - 1];
+          if (!last) {
+            result.push(interval);
+            return result;
+          }
+          if (interval.start - last.end <= activeMergeGapFrames) {
+            last.end = Math.max(last.end, interval.end);
+          } else {
+            result.push(interval);
+          }
+          return result;
+        }, []);
+      map.set(speakerId, merged);
+    }
+
+    return map;
+  }, [activeMergeGapFrames, lines]);
+
   return (
     <AbsoluteFill style={{ backgroundColor }}>
       {config?.wavPath ? <Audio src={staticFile(config.wavPath)} /> : null}
-      {activeLine ? (
+      {mode !== "subtitles" &&
+        (config?.characters ?? []).map((character) => {
+          const id = character.id ?? character.speakerId;
+          if (mode === "character" && characterId && id !== characterId) {
+            return null;
+          }
+          const activeIntervals = activeIntervalsBySpeaker.get(
+            character.speakerId,
+          );
+          return (
+            <Character
+              key={id}
+              src={staticFile(character.imagePath)}
+              activeSrc={
+                character.activeImagePath
+                  ? staticFile(character.activeImagePath)
+                  : undefined
+              }
+              activeIntervals={activeIntervals}
+              position={character.position}
+              width={character.width}
+              height={character.height}
+            />
+          );
+        })}
+      {mode !== "character" && activeLine ? (
         <div
           style={{
             position: "absolute",

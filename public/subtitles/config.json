@@ -7,6 +7,7 @@
   "strokeWidth": 10,
   "fontSize": 56,
   "paddingBottom": 80,
+  "activeMergeGapFrames": 2,
   "speakers": [
     {
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
@@ -17,6 +18,20 @@
       "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
       "textColor": "#ffffff",
       "strokeColor": "#cc00cc"
+    }
+  ],
+  "characters": [
+    {
+      "id": "zunda",
+      "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
+      "imagePath": "images/zunda_normal.png",
+      "activeImagePath": "images/zunda_active.png",
+      "position": {
+        "x": 80,
+        "y": 200
+      },
+      "width": 640,
+      "height": 720
     }
   ]
 }
