@@ -9,6 +9,7 @@ type CharacterProps = {
   src: string;
   activeSrc?: string;
   activeIntervals?: Interval[];
+  flipX?: boolean;
   position: {
     x: number;
     y: number;
@@ -33,6 +34,7 @@ export const Character: React.FC<CharacterProps> = ({
   src,
   activeSrc,
   activeIntervals,
+  flipX,
   position,
   width,
   height,
@@ -49,6 +51,8 @@ export const Character: React.FC<CharacterProps> = ({
         top: position.y,
         width,
         height,
+        transform: flipX ? "scaleX(-1)" : undefined,
+        transformOrigin: "center",
       }}
     >
       <img

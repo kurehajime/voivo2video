@@ -27,7 +27,20 @@
       "imagePath": "images/zunda_normal.png",
       "activeImagePath": "images/zunda_active.png",
       "position": {
-        "x": 80,
+        "x": 750,
+        "y": 200
+      },
+      "width": 640,
+      "height": 720
+    },
+    {
+      "id": "metan",
+      "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
+      "imagePath": "images/metan_normal.png",
+      "activeImagePath": "images/metan_active.png",
+      "flipX": false,
+      "position": {
+        "x": -100,
         "y": 200
       },
       "width": 640,

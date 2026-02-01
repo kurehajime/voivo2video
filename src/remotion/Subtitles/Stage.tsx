@@ -192,6 +192,7 @@ export const Stage: React.FC<StageProps> = ({
                   : undefined
               }
               activeIntervals={activeIntervals}
+              flipX={character.flipX}
               position={character.position}
               width={character.width}
               height={character.height}
