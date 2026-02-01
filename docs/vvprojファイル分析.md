@@ -25,20 +25,20 @@ WAV を生成せずに各セリフの発話時間を高速に算出するため�
 以下を合算する。
 
 ```
-発話時間 = (prePhonemeLength
-        + Σ(アクセント句)
+発話時間 = prePhonemeLength
+        + ( Σ(アクセント句)
             + Σ(各 mora の consonantLength + vowelLength)
             + (pauseMora があればその vowelLength * pauseLengthScale)
-        + postPhonemeLength)
-        / speedScale
+          ) / speedScale
+        + postPhonemeLength
 ```
 
 ### 補足
 - `consonantLength` が無い mora は 0 として扱う
 - `pauseMora` はアクセント句の後ろに入る休止
 - `pauseLengthScale` は pauseMora の長さに乗算する
-- `speedScale` は合計時間に対する割り算として反映する
-- `speedScale` などは query 生成時点で反映済みの前提
+- `speedScale` はモーラ・ポーズの合計に対して割り算として反映する
+- `prePhonemeLength` / `postPhonemeLength` は speedScale の対象外として扱う
 
 ## 具体的な手順
 1. `.vvproj` を JSON として読み込む

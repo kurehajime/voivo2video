@@ -49,24 +49,26 @@ export const calcQueryDurationSec = (query?: VvprojAudioQuery | null): number =>
   }
 
   let total = 0;
+  let phonemeTotal = 0;
   const pauseScale = numberOrZero(query.pauseLengthScale ?? 1) || 1;
   total += numberOrZero(query.prePhonemeLength ?? 0);
   total += numberOrZero(query.postPhonemeLength ?? 0);
 
   for (const phrase of query.accentPhrases ?? []) {
     for (const mora of phrase.moras ?? []) {
-      total += numberOrZero(mora.consonantLength ?? 0);
-      total += numberOrZero(mora.vowelLength ?? 0);
+      phonemeTotal += numberOrZero(mora.consonantLength ?? 0);
+      phonemeTotal += numberOrZero(mora.vowelLength ?? 0);
     }
 
     if (phrase.pauseMora) {
-      total += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
+      phonemeTotal += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
     }
   }
 
   // 話速が速いほど時間は短くなるため、最後に割る
   const speedScale = numberOrZero(query.speedScale ?? 1) || 1;
-  return total / speedScale;
+  total += phonemeTotal / speedScale;
+  return total;
 };
 
 // セリフ単位のタイムライン情報
