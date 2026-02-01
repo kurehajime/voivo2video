@@ -5,7 +5,7 @@
   "textColor": "#0f172a",
   "strokeColor": "#ff00ff",
   "strokeWidth": 10,
-  "fontSize": 56,
+  "fontSize": 48,
   "paddingBottom": 40,
   "activeMergeGapFrames": 2,
   "cssPath": "sample/sample.css",
