@@ -1,6 +1,6 @@
 {
-  "vvprojPath": "subtitles/test.vvproj",
-  "wavPath": "sound.wav",
+  "vvprojPath": "sample/sample.vvproj",
+  "wavPath": "sample/sample.wav",
   "backgroundColor": "#f7f6f2",
   "textColor": "#0f172a",
   "strokeColor": "#ff00ff",

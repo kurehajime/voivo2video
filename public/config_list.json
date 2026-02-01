@@ -1,6 +1,6 @@
 [
   {
     "id": "test",
-    "configUrl": "subtitles/config.json"
+    "configUrl": "sample/config.json"
   }
 ]

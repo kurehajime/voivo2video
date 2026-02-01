@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   // 固定の configUrl でローカル確認する
   const inputProps = useMemo(() => {
     return {
-      configUrl: "subtitles/config.json",
+      configUrl: "sample/config.json",
     };
   }, []);
 
