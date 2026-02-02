@@ -4,7 +4,7 @@
 
 ## 配置
 - `public/config_list.json`
-- `public/subtitles/config.json`
+- `public/sample/config.json`
 
 ## config_list.json
 字幕コンポジションの一覧。
@@ -23,13 +23,13 @@
 - `id`: コンポジション識別子（任意）
 - `configUrl`: `public/` 配下の設定ファイルへの相対パス
 
-## subtitles/config.json
+## sample/config.json
 字幕表示と vvproj 読み込みの設定。
 
 例:
 ```json
 {
-  "vvprojPath": "subtitles/test.vvproj",
+  "vvprojPath": "sample/sample.vvproj",
   "wavPath": "sound.wav",
   "backgroundColor": "#f7f6f2",
   "textColor": "#0f172a",
@@ -44,11 +44,11 @@
     {
       "id": "zunda",
       "speakerId": "388f246b-8c41-4ac1-8e2d-5d79f3ff56d9",
-      "imagePath": "images/zunda_normal.png",
-      "activeImagePath": "images/zunda_active1.png",
-      "activeImagePath2": "images/zunda_active2.png",
+      "normalImages": ["images/zunda_normal.png"],
+      "activeImages": ["images/zunda_active1.png", "images/zunda_active2.png"],
+      "normalFrames": [20],
+      "activeFrames": [8, 8],
       "flipX": false,
-      "activeToggleFrames": 6,
       "textColor": "#ffffff",
       "strokeColor": "#00cc33",
       "position": {
@@ -77,11 +77,11 @@
 - `characters` (任意): 立ち絵の表示設定配列
   - `id` (任意): キャラ識別子（省略時は speakerId を使用）
   - `speakerId`: 話者ID [どのキャラ](./speakerId一覧.md)の音声を使用するか
-  - `imagePath`: 画像パス（通常状態）
-  - `activeImagePath` (任意): 画像パス（発話状態）
-  - `activeImagePath2` (任意): 画像パス（発話状態2）
+  - `normalImages`: 通常時にループする画像パス配列
+  - `activeImages` (任意): 発話時にループする画像パス配列
+  - `normalFrames` (任意): `normalImages` の各画像表示フレーム数配列
+  - `activeFrames` (任意): `activeImages` の各画像表示フレーム数配列
   - `flipX` (任意): 左右反転（true で反転）
-  - `activeToggleFrames` (任意): 発話中の切替間隔（フレーム）
   - `textColor` (任意): 文字色
   - `strokeColor` (任意): 縁取り色
   - `strokeWidth` (任意): 縁取りの太さ（px）
@@ -97,7 +97,9 @@
   * speakerIdを[キャラ一覧](./speakerId一覧.md)をもとに差し替えてください
   * 新しいキャラを追加する場合はcharacters配列にオブジェクトを追加してください
 * 立ち絵画像を差し替えたい
-  * imagePath, activeImagePath, activeImagePath2を差し替えてください
+  * normalImages, activeImagesを差し替えてください
+* 立ち絵の切り替え速度を変えたい
+  * normalFrames, activeFramesを調整してください
 * 立ち絵の位置やサイズを変えたい
   * position, width, heightを調整してください
 * 字幕のフォントや色を変えたい

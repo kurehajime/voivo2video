@@ -4,17 +4,16 @@ import { Img, useCurrentFrame, useVideoConfig } from "remotion";
 type Interval = {
   start: number;
   end: number;
-  toggleFrames?: number;
   speedScale?: number;
 };
 
 type CharacterProps = {
-  src: string;
-  activeSrc?: string;
-  activeSrc2?: string;
+  normalImages: string[];
+  activeImages?: string[];
+  normalFrames?: number[];
+  activeFrames?: number[];
   activeIntervals?: Interval[];
   flipX?: boolean;
-  activeToggleFrames?: number;
   position: {
     x: number;
     y: number;
@@ -40,12 +39,12 @@ const getActiveInterval = (
 };
 
 export const Character: React.FC<CharacterProps> = ({
-  src,
-  activeSrc,
-  activeSrc2,
+  normalImages,
+  activeImages,
+  normalFrames,
+  activeFrames,
   activeIntervals,
   flipX,
-  activeToggleFrames,
   position,
   width,
   height,
@@ -54,26 +53,43 @@ export const Character: React.FC<CharacterProps> = ({
   const activeInterval = getActiveInterval(frame, activeIntervals);
   const active = !!activeInterval;
   const { fps } = useVideoConfig();
-  // 口パク切替の間隔（話速が速いほど短くなる）
-  const toggleFrames = activeInterval?.toggleFrames ?? activeToggleFrames ?? 6;
-  const activeFrame = toggleFrames <= 0 ? 0 : Math.floor(frame / toggleFrames);
-  const hasActiveSet = !!activeSrc || !!activeSrc2;
-  let imageSrc = src;
+  const speedScale = activeInterval?.speedScale ?? 1;
 
-  // アクティブ中は2枚の画像を交互に切り替える
-  if (active && hasActiveSet) {
-    if (activeSrc && activeSrc2) {
-      imageSrc = activeFrame % 2 === 0 ? activeSrc : activeSrc2;
-    } else if (activeSrc) {
-      imageSrc = activeSrc;
-    } else if (activeSrc2) {
-      imageSrc = activeSrc2;
+  const pickImageByFrames = (
+    images: string[],
+    framesPerImage: number[] | undefined,
+    frameCursor: number,
+    frameScale = 1,
+  ): string => {
+    if (images.length === 0) {
+      return "";
     }
+    const normalizedFrames = images.map((_, index) => {
+      const raw = framesPerImage?.[index] ?? framesPerImage?.[0] ?? 1;
+      const safe = Math.max(1, Math.round(raw));
+      return Math.max(1, Math.round(safe / frameScale));
+    });
+    const totalFrames = normalizedFrames.reduce((sum, value) => sum + value, 0);
+    const loopFrame = ((frameCursor % totalFrames) + totalFrames) % totalFrames;
+
+    let cursor = 0;
+    for (let i = 0; i < images.length; i += 1) {
+      cursor += normalizedFrames[i];
+      if (loopFrame < cursor) {
+        return images[i];
+      }
+    }
+    return images[0];
+  };
+
+  let imageSrc = pickImageByFrames(normalImages, normalFrames, frame);
+  if (active && activeImages && activeImages.length > 0) {
+    const localFrame = frame - activeInterval.start;
+    imageSrc = pickImageByFrames(activeImages, activeFrames, localFrame, speedScale);
   }
 
   // 発話中は縦方向にわずかに伸縮させる（口パクの勢い付け）
   const localFrame = activeInterval ? frame - activeInterval.start : 0;
-  const speedScale = activeInterval?.speedScale ?? 1;
   // 0.4秒サイクルを基準にし、話速で周期を変える
   const stretchCycleFrames = Math.max(
     1,

@@ -189,18 +189,11 @@ export const Stage: React.FC<StageProps> = ({
   ]);
 
   const activeIntervalsBySpeaker = useMemo(() => {
-    const speakerBaseToggleFrames = new Map<string, number>();
-    for (const character of config?.characters ?? []) {
-      const base = character.activeToggleFrames ?? 6;
-      speakerBaseToggleFrames.set(character.speakerId, base);
-    }
-
     const map = new Map<
       string,
       Array<{
         start: number;
         end: number;
-        toggleFrames?: number;
         speedScale?: number;
       }>
     >();
@@ -209,18 +202,10 @@ export const Stage: React.FC<StageProps> = ({
         continue;
       }
       const list = map.get(line.speakerId) ?? [];
-      const baseToggleFrames =
-        speakerBaseToggleFrames.get(line.speakerId) ?? 6;
       const speedScale = line.speedScale > 0 ? line.speedScale : 1;
-      // 話速が速いほど口パク切替を速くする
-      const toggleFrames = Math.max(
-        1,
-        Math.round(baseToggleFrames / speedScale),
-      );
       list.push({
         start: line.activeStartFrame,
         end: line.activeEndFrame,
-        toggleFrames,
         speedScale,
       });
       map.set(line.speakerId, list);
@@ -234,7 +219,6 @@ export const Stage: React.FC<StageProps> = ({
           Array<{
             start: number;
             end: number;
-            toggleFrames?: number;
             speedScale?: number;
           }>
         >((result, interval) => {
@@ -245,7 +229,6 @@ export const Stage: React.FC<StageProps> = ({
           }
           if (interval.start - last.end <= activeMergeGapFrames) {
             last.end = Math.max(last.end, interval.end);
-            last.toggleFrames = interval.toggleFrames ?? last.toggleFrames;
             last.speedScale = interval.speedScale ?? last.speedScale;
           } else {
             result.push(interval);
@@ -282,20 +265,14 @@ export const Stage: React.FC<StageProps> = ({
           return (
             <Character
               key={id}
-              src={staticFile(character.imagePath)}
-              activeSrc={
-                character.activeImagePath
-                  ? staticFile(character.activeImagePath)
-                  : undefined
+              normalImages={character.normalImages.map((path) => staticFile(path))}
+              activeImages={
+                character.activeImages?.map((path) => staticFile(path))
               }
-              activeSrc2={
-                character.activeImagePath2
-                  ? staticFile(character.activeImagePath2)
-                  : undefined
-              }
+              normalFrames={character.normalFrames}
+              activeFrames={character.activeFrames}
               activeIntervals={activeIntervals}
               flipX={character.flipX}
-              activeToggleFrames={character.activeToggleFrames}
               position={character.position}
               width={character.width}
               height={character.height}

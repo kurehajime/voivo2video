@@ -16,12 +16,11 @@ export type SubtitleConfig = {
   characters?: Array<{
     id?: string;
     speakerId: string;
-    imagePath: string;
-    activeImagePath?: string;
-    activeImagePath2?: string;
+    normalImages: string[];
+    activeImages?: string[];
+    normalFrames?: number[];
+    activeFrames?: number[];
     flipX?: boolean;
-    // 発話中の切替間隔（フレーム）
-    activeToggleFrames?: number;
     textColor?: string;
     strokeColor?: string;
     strokeWidth?: number;
