@@ -24,8 +24,8 @@
         100
       ],
       "activeFrames": [
-        16,
-        8
+        10,
+        5
       ],
       "textColor": "#ffffff",
       "strokeColor": "#00cc33",
@@ -50,8 +50,8 @@
         20
       ],
       "activeFrames": [
-        8,
-        8
+        10,
+        5
       ],
       "flipX": false,
       "textColor": "#ffffff",
