@@ -11,8 +11,6 @@ export type SubtitleConfig = {
   paddingBottom?: number;
   // 字幕用のCSSファイル（public 配下の相対パス）
   cssPath?: string;
-  // speedScale の適用方式
-  speedScaleMode?: "all" | "phonemeOnly";
   // 口パクのアクティブ区間を近接結合するためのしきい値（フレーム）
   activeMergeGapFrames?: number;
   characters?: Array<{

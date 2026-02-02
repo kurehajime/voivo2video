@@ -47,26 +47,24 @@ const numberOrZero = (value: number | null | undefined): number => {
 // query から「設計上の発話時間（秒）」を合算する
 export const calcQueryDurationSec = (
   query?: VvprojAudioQuery | null,
-  speedScaleMode: "all" | "phonemeOnly" = "all",
 ): number => {
   if (!query) {
     return 0;
   }
 
   let total = 0;
-  let phonemeTotal = 0;
   const pauseScale = numberOrZero(query.pauseLengthScale ?? 1) || 1;
   total += numberOrZero(query.prePhonemeLength ?? 0);
   total += numberOrZero(query.postPhonemeLength ?? 0);
 
   for (const phrase of query.accentPhrases ?? []) {
     for (const mora of phrase.moras ?? []) {
-      phonemeTotal += numberOrZero(mora.consonantLength ?? 0);
-      phonemeTotal += numberOrZero(mora.vowelLength ?? 0);
+      total += numberOrZero(mora.consonantLength ?? 0);
+      total += numberOrZero(mora.vowelLength ?? 0);
     }
 
     if (phrase.pauseMora) {
-      phonemeTotal += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
+      total += numberOrZero(phrase.pauseMora.vowelLength ?? 0) * pauseScale;
     }
 
     if (phrase.isInterrogative) {
@@ -74,18 +72,13 @@ export const calcQueryDurationSec = (
       const last = moras[moras.length - 1];
       if (last && numberOrZero(last.pitch ?? 0) > 0) {
         // VOICEVOX 側の疑問形上げ（固定 0.15s）を加算
-        phonemeTotal += 0.15;
+        total += 0.15;
       }
     }
   }
 
   // 話速が速いほど時間は短くなるため、最後に割る
   const speedScale = numberOrZero(query.speedScale ?? 1) || 1;
-  if (speedScaleMode === "phonemeOnly") {
-    total += phonemeTotal / speedScale;
-    return total;
-  }
-  total += phonemeTotal;
   return total / speedScale;
 };
 
@@ -103,10 +96,7 @@ export type TalkLine = {
 };
 
 // audioKeys の順序でセリフ配列を作成する
-export const getTalkLines = (
-  vvproj: Vvproj,
-  speedScaleMode: "all" | "phonemeOnly" = "all",
-): TalkLine[] => {
+export const getTalkLines = (vvproj: Vvproj): TalkLine[] => {
   const talk = vvproj.talk ?? {};
   const audioItems = talk.audioItems ?? {};
   const orderedKeys = Array.isArray(talk.audioKeys)
@@ -124,7 +114,7 @@ export const getTalkLines = (
       continue;
     }
     const query = item.query ?? undefined;
-    const durationSec = calcQueryDurationSec(query, speedScaleMode);
+    const durationSec = calcQueryDurationSec(query);
     const startSec = cursor;
     const endSec = startSec + durationSec;
     const prePhonemeLength =
@@ -159,11 +149,8 @@ export const getTalkLines = (
 };
 
 // 最後のセリフ終了時刻を返す
-export const getTalkEndSeconds = (
-  vvproj: Vvproj,
-  speedScaleMode: "all" | "phonemeOnly" = "all",
-): number => {
-  const lines = getTalkLines(vvproj, speedScaleMode);
+export const getTalkEndSeconds = (vvproj: Vvproj): number => {
+  const lines = getTalkLines(vvproj);
   if (lines.length === 0) {
     return 0;
   }

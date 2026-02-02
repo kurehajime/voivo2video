@@ -113,10 +113,9 @@ export const RemotionRoot: React.FC = () => {
       throw new Error(`Failed to load vvproj: ${vvprojResponse.status}`);
     }
     const vvproj = (await vvprojResponse.json()) as Vvproj;
-    const speedScaleMode = config.speedScaleMode ?? "all";
     const durationInFrames = Math.max(
       1,
-      Math.ceil(getTalkEndSeconds(vvproj, speedScaleMode) * fps),
+      Math.ceil(getTalkEndSeconds(vvproj) * fps),
     );
 
     return {
