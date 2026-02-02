@@ -57,6 +57,43 @@ export const Stage: React.FC<StageProps> = ({
         }
         setConfig(configJson);
 
+        if (configJson.localFonts?.length) {
+          // localFonts で指定したフォントを先読みしてからレンダリングを開始する
+          await Promise.all(
+            configJson.localFonts.map(async (font) => {
+              const face = new FontFace(
+                font.family,
+                `url(${staticFile(font.path)})`,
+                {
+                  weight:
+                    font.weight === undefined ? undefined : String(font.weight),
+                  style: font.style,
+                },
+              );
+              const loaded = await face.load();
+              document.fonts.add(loaded);
+            }),
+          );
+        }
+
+        if (configJson.cssPath) {
+          const cssResponse = await fetch(staticFile(configJson.cssPath));
+          if (!cssResponse.ok) {
+            throw new Error(`Failed to load css: ${cssResponse.status}`);
+          }
+          const cssText = await cssResponse.text();
+          if (cancelled) {
+            return;
+          }
+          setSubtitleCss(cssText);
+        } else {
+          setSubtitleCss(null);
+        }
+
+        if (document.fonts && "ready" in document.fonts) {
+          await document.fonts.ready;
+        }
+
         const vvprojResponse = await fetch(staticFile(configJson.vvprojPath));
         if (!vvprojResponse.ok) {
           throw new Error(`Failed to load vvproj: ${vvprojResponse.status}`);
@@ -81,32 +118,6 @@ export const Stage: React.FC<StageProps> = ({
       cancelled = true;
     };
   }, [configUrl, handle]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadCss = async () => {
-      const cssPath = config?.cssPath;
-      if (!cssPath) {
-        setSubtitleCss(null);
-        return;
-      }
-      const response = await fetch(staticFile(cssPath));
-      if (!response.ok) {
-        return;
-      }
-      const cssText = await response.text();
-      if (!cancelled) {
-        setSubtitleCss(cssText);
-      }
-    };
-
-    loadCss();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [config?.cssPath]);
 
   const lines = useMemo<LineWithFrames[]>(() => {
     if (!vvproj) {

@@ -2,6 +2,13 @@
 export type SubtitleConfig = {
   vvprojPath: string;
   wavPath?: string;
+  // ローカルフォントを先読みしたい場合の設定（public 配下の相対パス）
+  localFonts?: Array<{
+    family: string;
+    path: string;
+    weight?: string | number;
+    style?: "normal" | "italic";
+  }>;
   backgroundColor?: string;
   textColor?: string;
   strokeColor?: string;

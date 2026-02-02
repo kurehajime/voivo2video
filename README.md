@@ -48,6 +48,11 @@ Renderボタンを押すと動画を出力します。
 `public/sample/config.json` の `cssPath` を指定すると、
 `public/sample/sample.css` の `#subtitle` が字幕に適用されます。
 
+### ローカルフォントを安定適用する
+
+`public/sample/config.json` の `localFonts` にフォントを登録すると、
+レンダー開始前にフォントを先読みして先頭フレームの未適用を防げます。
+
 ### speakerId 一覧
 
 `docs/speakerId一覧.md` を参照してください。

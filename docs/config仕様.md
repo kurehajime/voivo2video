@@ -31,6 +31,14 @@
 {
   "vvprojPath": "sample/sample.vvproj",
   "wavPath": "sound.wav",
+  "localFonts": [
+    {
+      "family": "Yusei Magic",
+      "path": "fonts/YuseiMagic-Regular.ttf",
+      "weight": 400,
+      "style": "normal"
+    }
+  ],
   "backgroundColor": "#f7f6f2",
   "textColor": "#0f172a",
   "strokeColor": "#0b1020",
@@ -66,6 +74,11 @@
 - `vvprojPath` (必須): `public/` 配下の vvproj への相対パス
 - `wavPath` (任意): `public/` 配下の wav への相対パス。指定すると音声を再生
 - `backgroundColor` (任意): 背景色
+- `localFonts` (任意): レンダー前に先読みするローカルフォント設定
+  - `family`: CSS で使うフォント名
+  - `path`: `public/` 配下のフォントファイル相対パス
+  - `weight` (任意): フォントウェイト
+  - `style` (任意): `normal` / `italic`
 - `textColor` (任意): 文字色
 - `strokeColor` (任意): 縁取り色（WebkitTextStroke）
 - `strokeWidth` (任意): 縁取りの太さ（px）
@@ -104,3 +117,5 @@
   * position, width, heightを調整してください
 * 字幕のフォントや色を変えたい
   * textColor, strokeColor, strokeWidth, fontSize, fontFamilyを調整してください
+* 字幕フォントの初期フレーム崩れを防ぎたい
+  * localFonts にフォントを登録し、cssPath 側では `#subtitle { font-family: ... }` を指定してください

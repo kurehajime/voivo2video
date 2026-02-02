@@ -2,6 +2,14 @@
   "vvprojPath": "sample/sample.vvproj",
   "wavPath": "sample/sample.wav",
   "backgroundColor": "#f7f6f2",
+  "localFonts": [
+    {
+      "family": "Yusei Magic",
+      "path": "fonts/YuseiMagic-Regular.ttf",
+      "weight": 400,
+      "style": "normal"
+    }
+  ],
   "textColor": "#0f172a",
   "strokeColor": "#ff00ff",
   "strokeWidth": 10,
