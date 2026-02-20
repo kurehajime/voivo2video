@@ -138,7 +138,7 @@ export const RemotionRoot: React.FC = () => {
         const config = configMap[configUrl];
 
         // 1つの config から All/Subtitles/Character の各出力を作る
-        const compositions: JSX.Element[] = [
+        const compositions = [
           <Composition
             key={`All-${id}`}
             id={`All-${id}`}
