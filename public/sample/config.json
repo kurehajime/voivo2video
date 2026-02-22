@@ -10,8 +10,8 @@
       "style": "normal"
     }
   ],
-  "textColor": "#0f172a",
-  "strokeColor": "#ff00ff",
+  "textColor": "#ffffff",
+  "strokeColor": "#0099cc",
   "strokeWidth": 10,
   "fontSize": 48,
   "paddingBottom": 40,
@@ -50,15 +50,16 @@
       "id": "metan",
       "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
       "normalImages": [
-        "images/metan_normal1.png"
+        "images/metan_normal1.png",
+        "images/metan_normal2.png"
       ],
       "activeImages": [
         "images/metan_active1.png",
         "images/metan_active2.png"
       ],
       "normalFrames": [
-        100,
-        30
+        51,
+        2
       ],
       "activeFrames": [
         10,
