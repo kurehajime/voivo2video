@@ -13,6 +13,7 @@ type CharacterProps = {
   normalFrames?: number[];
   activeFrames?: number[];
   activeIntervals?: Interval[];
+  overrideImage?: string;
   flipX?: boolean;
   position: {
     x: number;
@@ -44,6 +45,7 @@ export const Character: React.FC<CharacterProps> = ({
   normalFrames,
   activeFrames,
   activeIntervals,
+  overrideImage,
   flipX,
   position,
   width,
@@ -83,7 +85,9 @@ export const Character: React.FC<CharacterProps> = ({
   };
 
   let imageSrc = pickImageByFrames(normalImages, normalFrames, frame);
-  if (active && activeImages && activeImages.length > 0) {
+  if (overrideImage) {
+    imageSrc = overrideImage;
+  } else if (active && activeImages && activeImages.length > 0) {
     const localFrame = frame - activeInterval.start;
     imageSrc = pickImageByFrames(activeImages, activeFrames, localFrame, speedScale);
   }

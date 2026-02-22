@@ -23,6 +23,20 @@
 - `id`: コンポジション識別子（任意）
 - `configUrl`: `public/` 配下の設定ファイルへの相対パス
 
+## override.json
+特定の audioItems に対して立ち絵画像を差し替える設定。
+`public/override.json` に配置します。
+
+例:
+```json
+{
+  "audioItemId": "images/zunda_surprised.png"
+}
+```
+
+- `audioItemId`: vvproj の talk.audioItems のキー
+- 値: `public/` 配下の画像パス
+
 ## sample/config.json
 字幕表示と vvproj 読み込みの設定。
 

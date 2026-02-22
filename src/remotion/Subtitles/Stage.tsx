@@ -26,6 +26,8 @@ type LineWithFrames = TalkLine & {
   activeEndFrame: number;
 };
 
+type OverrideConfig = Record<string, string>;
+
 export const Stage: React.FC<StageProps> = ({
   configUrl,
   mode = "all",
@@ -36,6 +38,8 @@ export const Stage: React.FC<StageProps> = ({
   const [config, setConfig] = useState<SubtitleConfig | null>(null);
   const [vvproj, setVvproj] = useState<Vvproj | null>(null);
   const [subtitleCss, setSubtitleCss] = useState<string | null>(null);
+  const [overrideConfig, setOverrideConfig] =
+    useState<OverrideConfig | null>(null);
   const [handle] = useState(() => delayRender("load subtitle config"));
 
   useEffect(() => {
@@ -88,6 +92,29 @@ export const Stage: React.FC<StageProps> = ({
           setSubtitleCss(cssText);
         } else {
           setSubtitleCss(null);
+        }
+
+        try {
+          const overrideResponse = await fetch(staticFile("override.json"));
+          if (overrideResponse.ok) {
+            const overrideJson =
+              (await overrideResponse.json()) as OverrideConfig;
+            if (!cancelled) {
+              setOverrideConfig(overrideJson);
+            }
+          } else if (overrideResponse.status === 404) {
+            if (!cancelled) {
+              setOverrideConfig(null);
+            }
+          } else {
+            throw new Error(
+              `Failed to load override.json: ${overrideResponse.status}`,
+            );
+          }
+        } catch (error) {
+          if (!cancelled) {
+            setOverrideConfig(null);
+          }
         }
 
         if (document.fonts && "ready" in document.fonts) {
@@ -166,6 +193,20 @@ export const Stage: React.FC<StageProps> = ({
     }
     return null;
   }, [frame, lines]);
+
+  const activeOverrideImage = useMemo(() => {
+    if (!activeLine || !overrideConfig) {
+      return null;
+    }
+    const overridePath = overrideConfig[activeLine.key];
+    if (!overridePath) {
+      return null;
+    }
+    return {
+      speakerId: activeLine.speakerId,
+      imageSrc: staticFile(overridePath),
+    };
+  }, [activeLine, overrideConfig]);
 
   const backgroundColor = "transparent";
   const defaultTextColor = config?.textColor ?? "#0f172a";
@@ -287,6 +328,11 @@ export const Stage: React.FC<StageProps> = ({
               position={character.position}
               width={character.width}
               height={character.height}
+              overrideImage={
+                activeOverrideImage?.speakerId === character.speakerId
+                  ? activeOverrideImage.imageSrc
+                  : undefined
+              }
             />
           );
         })}
